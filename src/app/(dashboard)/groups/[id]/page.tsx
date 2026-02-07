@@ -90,6 +90,9 @@ export default function GroupDetailPage() {
   // Parlay builder dialog state
   const [parlayBuilderOpen, setParlayBuilderOpen] = useState(false);
 
+  // Bet filter state
+  const [betFilter, setBetFilter] = useState<"all" | "open" | "locked" | "settled">("all");
+
   const utils = trpc.useUtils();
 
   const { data: group, isLoading: groupLoading } = trpc.groups.getById.useQuery(
@@ -159,6 +162,19 @@ export default function GroupDetailPage() {
     onSuccess: () => {
       toast.success("Parlay placed!");
       setParlayBuilderOpen(false);
+      if (actualGroupId) {
+        utils.parlays.getByGroup.invalidate({ groupId: actualGroupId });
+        utils.credits.getMyCredits.invalidate({ groupId: actualGroupId });
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const cancelParlayMutation = trpc.parlays.cancel.useMutation({
+    onSuccess: () => {
+      toast.success("Parlay cancelled and credits refunded!");
       if (actualGroupId) {
         utils.parlays.getByGroup.invalidate({ groupId: actualGroupId });
         utils.credits.getMyCredits.invalidate({ groupId: actualGroupId });
@@ -674,6 +690,30 @@ export default function GroupDetailPage() {
             </Dialog>
           </div>
 
+          {/* Bet Filters */}
+          {bets && bets.length > 0 && (
+            <div className="flex gap-2 mb-4 flex-wrap">
+              {(["all", "open", "locked", "settled"] as const).map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => setBetFilter(filter)}
+                  className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-all ${
+                    betFilter === filter
+                      ? "bg-theme-primary text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                  {filter !== "all" && (
+                    <span className="ml-1.5 text-xs opacity-75">
+                      ({bets.filter((b) => b.status === filter).length})
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+
           {betsLoading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-6 w-6 animate-spin text-theme-primary" />
@@ -693,7 +733,9 @@ export default function GroupDetailPage() {
               animate="show"
               className="space-y-3"
             >
-              {bets.map((bet) => {
+              {bets
+                .filter((bet) => betFilter === "all" || bet.status === betFilter)
+                .map((bet) => {
                 const statusInfo = getStatusInfo(bet.status);
                 const StatusIcon = statusInfo.icon;
                 const isOpenForBetting = bet.status === "open";
@@ -821,6 +863,10 @@ export default function GroupDetailPage() {
                     const americanOdds = decimalOdds >= 2
                       ? Math.round((decimalOdds - 1) * 100)
                       : Math.round(-100 / (decimalOdds - 1));
+                    // Check if parlay can be cancelled (all bets still open)
+                    const canCancel =
+                      parlay.result === "pending" &&
+                      parlay.legs?.every((leg) => leg.bet?.status === "open");
                     return (
                       <motion.div key={parlay.id} variants={item}>
                         <div className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-theme-primary-200 hover:shadow-lg hover:shadow-theme transition-all">
@@ -840,7 +886,7 @@ export default function GroupDetailPage() {
                                   {formatAmericanOdds(americanOdds)}
                                 </span>
                               </div>
-                              <div className="flex flex-wrap gap-1.5">
+                              <div className="flex flex-wrap gap-1.5 mb-3">
                                 {parlay.legs?.map((leg, idx) => (
                                   <span
                                     key={leg.id || idx}
@@ -855,6 +901,37 @@ export default function GroupDetailPage() {
                                     {leg.option?.name || "Pick"}
                                   </span>
                                 ))}
+                              </div>
+                              {/* Parlay controls */}
+                              <div className="flex items-center gap-2">
+                                <Link href={`/parlays/${parlay.id}`}>
+                                  <Button size="sm" variant="outline" className="h-7 text-xs">
+                                    View Details
+                                    <ChevronRight className="h-3 w-3 ml-1" />
+                                  </Button>
+                                </Link>
+                                {canCancel && (
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="h-7 text-xs text-red-600 border-red-200 hover:bg-red-50"
+                                    onClick={() => {
+                                      if (confirm("Cancel this parlay and get your credits back?")) {
+                                        cancelParlayMutation.mutate({ parlayId: parlay.id });
+                                      }
+                                    }}
+                                    disabled={cancelParlayMutation.isPending}
+                                  >
+                                    {cancelParlayMutation.isPending ? (
+                                      <Loader2 className="h-3 w-3 animate-spin" />
+                                    ) : (
+                                      <>
+                                        <X className="h-3 w-3 mr-1" />
+                                        Cancel
+                                      </>
+                                    )}
+                                  </Button>
+                                )}
                               </div>
                             </div>
                             <div className="text-right shrink-0">
