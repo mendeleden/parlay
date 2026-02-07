@@ -13,19 +13,19 @@ import { cn } from "@/lib/utils";
 
 const themes: { name: ThemeName; label: string; colors: string[] }[] = [
   {
-    name: "violet",
-    label: "Violet",
-    colors: ["bg-violet-500", "bg-fuchsia-500"],
+    name: "indigo",
+    label: "Indigo",
+    colors: ["bg-indigo-500", "bg-violet-500"],
   },
   {
-    name: "ocean",
-    label: "Ocean",
-    colors: ["bg-blue-500", "bg-teal-500"],
+    name: "emerald",
+    label: "Emerald",
+    colors: ["bg-emerald-500", "bg-teal-500"],
   },
   {
-    name: "sunset",
-    label: "Sunset",
-    colors: ["bg-orange-500", "bg-rose-500"],
+    name: "rose",
+    label: "Rose",
+    colors: ["bg-rose-500", "bg-pink-500"],
   },
 ];
 

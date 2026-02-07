@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-export type ThemeName = "violet" | "ocean" | "sunset";
+export type ThemeName = "indigo" | "emerald" | "rose";
 
 interface ThemeContextType {
   theme: ThemeName;
@@ -14,13 +14,13 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const THEME_STORAGE_KEY = "parlay-theme";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeName>("violet");
+  const [theme, setThemeState] = useState<ThemeName>("indigo");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const storedTheme = localStorage.getItem(THEME_STORAGE_KEY) as ThemeName | null;
-    if (storedTheme && ["violet", "ocean", "sunset"].includes(storedTheme)) {
+    if (storedTheme && ["indigo", "emerald", "rose"].includes(storedTheme)) {
       setThemeState(storedTheme);
     }
   }, []);
@@ -28,7 +28,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (mounted) {
       // Remove previous theme classes
-      document.documentElement.classList.remove("theme-violet", "theme-ocean", "theme-sunset");
+      document.documentElement.classList.remove("theme-indigo", "theme-emerald", "theme-rose");
       // Add current theme class
       document.documentElement.classList.add(`theme-${theme}`);
       // Store in localStorage
@@ -43,7 +43,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Prevent flash of incorrect theme
   if (!mounted) {
     return (
-      <ThemeContext.Provider value={{ theme: "violet", setTheme }}>
+      <ThemeContext.Provider value={{ theme: "indigo", setTheme }}>
         {children}
       </ThemeContext.Provider>
     );

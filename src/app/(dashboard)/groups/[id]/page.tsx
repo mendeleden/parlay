@@ -735,15 +735,18 @@ export default function GroupDetailPage() {
               animate="show"
               className="space-y-3"
             >
-              {bets
-                .filter((bet) => betFilter === "all" || bet.status === betFilter)
-                .map((bet) => {
+              {bets.map((bet) => {
                 const statusInfo = getStatusInfo(bet.status);
                 const StatusIcon = statusInfo.icon;
                 const isOpenForBetting = bet.status === "open";
                 const userHasWager = bet.wagers?.some((w) => w.userId === session?.user?.id);
+                const matchesFilter = betFilter === "all" || bet.status === betFilter;
                 return (
-                  <motion.div key={bet.id} variants={item}>
+                  <motion.div
+                    key={bet.id}
+                    variants={item}
+                    className={matchesFilter ? "" : "opacity-40 scale-[0.98]"}
+                  >
                     <Link href={`/bets/${bet.id}`}>
                       <div className={`bg-white rounded-2xl border p-4 hover:shadow-lg transition-all cursor-pointer ${
                         isOpenForBetting

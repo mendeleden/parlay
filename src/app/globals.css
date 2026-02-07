@@ -117,104 +117,104 @@
 }
 
 /* Theme CSS Variables */
-/* Violet Theme (Default) - violet/fuchsia gradients */
+/* Indigo Theme (Default) - Deep sophisticated indigo */
 :root,
-.theme-violet {
-  /* Primary colors */
-  --theme-primary-50: oklch(0.969 0.016 293.756);
-  --theme-primary-100: oklch(0.943 0.029 294.588);
-  --theme-primary-200: oklch(0.894 0.057 293.283);
-  --theme-primary-300: oklch(0.811 0.111 293.571);
-  --theme-primary-400: oklch(0.702 0.183 293.541);
-  --theme-primary-500: oklch(0.606 0.25 292.717);
-  --theme-primary-600: oklch(0.541 0.281 293.009);
-  --theme-primary-700: oklch(0.491 0.27 292.581);
+.theme-indigo {
+  /* Primary colors - Rich Indigo */
+  --theme-primary-50: #eef2ff;
+  --theme-primary-100: #e0e7ff;
+  --theme-primary-200: #c7d2fe;
+  --theme-primary-300: #a5b4fc;
+  --theme-primary-400: #818cf8;
+  --theme-primary-500: #6366f1;
+  --theme-primary-600: #4f46e5;
+  --theme-primary-700: #4338ca;
 
-  /* Secondary/Accent colors */
-  --theme-secondary-400: oklch(0.74 0.238 322.16);
-  --theme-secondary-500: oklch(0.667 0.295 322.15);
-  --theme-secondary-600: oklch(0.591 0.293 322.896);
+  /* Secondary/Accent colors - Violet */
+  --theme-secondary-400: #a78bfa;
+  --theme-secondary-500: #8b5cf6;
+  --theme-secondary-600: #7c3aed;
 
   /* Gradient stops */
-  --theme-gradient-from: oklch(0.606 0.25 292.717);
-  --theme-gradient-to: oklch(0.667 0.295 322.15);
-  --theme-gradient-via: oklch(0.74 0.238 322.16);
+  --theme-gradient-from: #6366f1;
+  --theme-gradient-to: #8b5cf6;
+  --theme-gradient-via: #7c3aed;
 
   /* Shadow colors */
-  --theme-shadow: oklch(0.606 0.25 292.717 / 0.25);
-  --theme-shadow-hover: oklch(0.606 0.25 292.717 / 0.3);
+  --theme-shadow: rgba(99, 102, 241, 0.25);
+  --theme-shadow-hover: rgba(99, 102, 241, 0.35);
 
   /* Landing page specific */
-  --theme-orb-1: rgba(139, 92, 246, 0.3);
-  --theme-orb-1-bright: rgba(192, 132, 252, 0.4);
-  --theme-orb-2: rgba(236, 72, 153, 0.2);
-  --theme-orb-2-bright: rgba(244, 114, 182, 0.3);
+  --theme-orb-1: rgba(99, 102, 241, 0.3);
+  --theme-orb-1-bright: rgba(129, 140, 248, 0.4);
+  --theme-orb-2: rgba(139, 92, 246, 0.25);
+  --theme-orb-2-bright: rgba(167, 139, 250, 0.35);
 }
 
-/* Ocean Theme - blue/teal color scheme */
-.theme-ocean {
-  /* Primary colors - Blue */
-  --theme-primary-50: oklch(0.97 0.014 254.604);
-  --theme-primary-100: oklch(0.932 0.032 255.585);
-  --theme-primary-200: oklch(0.882 0.059 254.128);
-  --theme-primary-300: oklch(0.809 0.105 251.813);
-  --theme-primary-400: oklch(0.707 0.165 254.624);
-  --theme-primary-500: oklch(0.623 0.214 259.815);
-  --theme-primary-600: oklch(0.546 0.245 262.881);
-  --theme-primary-700: oklch(0.488 0.243 264.376);
+/* Emerald Theme - Fresh green with teal accents */
+.theme-emerald {
+  /* Primary colors - Emerald Green */
+  --theme-primary-50: #ecfdf5;
+  --theme-primary-100: #d1fae5;
+  --theme-primary-200: #a7f3d0;
+  --theme-primary-300: #6ee7b7;
+  --theme-primary-400: #34d399;
+  --theme-primary-500: #10b981;
+  --theme-primary-600: #059669;
+  --theme-primary-700: #047857;
 
   /* Secondary/Accent colors - Teal */
-  --theme-secondary-400: oklch(0.777 0.152 181.912);
-  --theme-secondary-500: oklch(0.704 0.14 182.503);
-  --theme-secondary-600: oklch(0.6 0.118 184.704);
+  --theme-secondary-400: #2dd4bf;
+  --theme-secondary-500: #14b8a6;
+  --theme-secondary-600: #0d9488;
 
   /* Gradient stops */
-  --theme-gradient-from: oklch(0.623 0.214 259.815);
-  --theme-gradient-to: oklch(0.704 0.14 182.503);
-  --theme-gradient-via: oklch(0.777 0.152 181.912);
+  --theme-gradient-from: #10b981;
+  --theme-gradient-to: #14b8a6;
+  --theme-gradient-via: #059669;
 
   /* Shadow colors */
-  --theme-shadow: oklch(0.623 0.214 259.815 / 0.25);
-  --theme-shadow-hover: oklch(0.623 0.214 259.815 / 0.3);
+  --theme-shadow: rgba(16, 185, 129, 0.25);
+  --theme-shadow-hover: rgba(16, 185, 129, 0.35);
 
   /* Landing page specific */
-  --theme-orb-1: rgba(59, 130, 246, 0.3);
-  --theme-orb-1-bright: rgba(96, 165, 250, 0.4);
-  --theme-orb-2: rgba(20, 184, 166, 0.2);
-  --theme-orb-2-bright: rgba(45, 212, 191, 0.3);
+  --theme-orb-1: rgba(16, 185, 129, 0.3);
+  --theme-orb-1-bright: rgba(52, 211, 153, 0.4);
+  --theme-orb-2: rgba(20, 184, 166, 0.25);
+  --theme-orb-2-bright: rgba(45, 212, 191, 0.35);
 }
 
-/* Sunset Theme - orange/rose warm color scheme */
-.theme-sunset {
-  /* Primary colors - Orange */
-  --theme-primary-50: oklch(0.98 0.016 73.684);
-  --theme-primary-100: oklch(0.954 0.038 75.164);
-  --theme-primary-200: oklch(0.901 0.076 70.697);
-  --theme-primary-300: oklch(0.837 0.128 66.29);
-  --theme-primary-400: oklch(0.75 0.183 55.934);
-  --theme-primary-500: oklch(0.705 0.213 47.604);
-  --theme-primary-600: oklch(0.646 0.222 41.116);
-  --theme-primary-700: oklch(0.553 0.195 38.402);
+/* Rose Theme - Warm pink-coral tones */
+.theme-rose {
+  /* Primary colors - Rose Pink */
+  --theme-primary-50: #fff1f2;
+  --theme-primary-100: #ffe4e6;
+  --theme-primary-200: #fecdd3;
+  --theme-primary-300: #fda4af;
+  --theme-primary-400: #fb7185;
+  --theme-primary-500: #f43f5e;
+  --theme-primary-600: #e11d48;
+  --theme-primary-700: #be123c;
 
-  /* Secondary/Accent colors - Rose */
-  --theme-secondary-400: oklch(0.712 0.194 13.428);
-  --theme-secondary-500: oklch(0.645 0.246 16.439);
-  --theme-secondary-600: oklch(0.586 0.253 17.585);
+  /* Secondary/Accent colors - Pink */
+  --theme-secondary-400: #f472b6;
+  --theme-secondary-500: #ec4899;
+  --theme-secondary-600: #db2777;
 
   /* Gradient stops */
-  --theme-gradient-from: oklch(0.705 0.213 47.604);
-  --theme-gradient-to: oklch(0.645 0.246 16.439);
-  --theme-gradient-via: oklch(0.712 0.194 13.428);
+  --theme-gradient-from: #f43f5e;
+  --theme-gradient-to: #ec4899;
+  --theme-gradient-via: #e11d48;
 
   /* Shadow colors */
-  --theme-shadow: oklch(0.705 0.213 47.604 / 0.25);
-  --theme-shadow-hover: oklch(0.705 0.213 47.604 / 0.3);
+  --theme-shadow: rgba(244, 63, 94, 0.25);
+  --theme-shadow-hover: rgba(244, 63, 94, 0.35);
 
   /* Landing page specific */
-  --theme-orb-1: rgba(249, 115, 22, 0.3);
-  --theme-orb-1-bright: rgba(251, 146, 60, 0.4);
-  --theme-orb-2: rgba(244, 63, 94, 0.2);
-  --theme-orb-2-bright: rgba(251, 113, 133, 0.3);
+  --theme-orb-1: rgba(244, 63, 94, 0.3);
+  --theme-orb-1-bright: rgba(251, 113, 133, 0.4);
+  --theme-orb-2: rgba(236, 72, 153, 0.25);
+  --theme-orb-2-bright: rgba(244, 114, 182, 0.35);
 }
 
 @layer base {
