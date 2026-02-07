@@ -690,27 +690,29 @@ export default function GroupDetailPage() {
             </Dialog>
           </div>
 
-          {/* Bet Filters */}
+          {/* Bet Filters - Segmented Control Style */}
           {bets && bets.length > 0 && (
-            <div className="flex gap-2 mb-4 flex-wrap">
-              {(["all", "open", "locked", "settled"] as const).map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setBetFilter(filter)}
-                  className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-all ${
-                    betFilter === filter
-                      ? "bg-theme-primary text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                  {filter !== "all" && (
-                    <span className="ml-1.5 text-xs opacity-75">
-                      ({bets.filter((b) => b.status === filter).length})
+            <div className="bg-gray-100 p-1 rounded-xl inline-flex mb-4">
+              {(["all", "open", "locked", "settled"] as const).map((filter) => {
+                const count = filter === "all" ? bets.length : bets.filter((b) => b.status === filter).length;
+                const isActive = betFilter === filter;
+                return (
+                  <button
+                    key={filter}
+                    onClick={() => setBetFilter(filter)}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                      isActive
+                        ? "bg-white text-theme-primary shadow-sm"
+                        : "text-gray-500 hover:text-gray-700"
+                    }`}
+                  >
+                    {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                    <span className={`ml-1.5 text-xs ${isActive ? "text-theme-primary" : "text-gray-400"}`}>
+                      {count}
                     </span>
-                  )}
-                </button>
-              ))}
+                  </button>
+                );
+              })}
             </div>
           )}
 
