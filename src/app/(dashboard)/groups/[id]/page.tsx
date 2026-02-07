@@ -47,6 +47,7 @@ import {
 import { formatAmericanOdds, calculatePayout, isValidAmericanOdds } from "@/lib/odds";
 import { CreditDisplay, CreditLeaderboard, AdminCreditDialog } from "@/components/credits";
 import { ParlayBuilderDialog } from "@/components/parlays";
+import { BetFilter, EmptyFilterState } from "@/components/ui/bet-filter";
 
 const container = {
   hidden: { opacity: 0 },
@@ -690,29 +691,19 @@ export default function GroupDetailPage() {
             </Dialog>
           </div>
 
-          {/* Bet Filters - Segmented Control Style */}
+          {/* Bet Filters */}
           {bets && bets.length > 0 && (
-            <div className="bg-gray-100 p-1 rounded-xl inline-flex mb-4">
-              {(["all", "open", "locked", "settled"] as const).map((filter) => {
-                const count = filter === "all" ? bets.length : bets.filter((b) => b.status === filter).length;
-                const isActive = betFilter === filter;
-                return (
-                  <button
-                    key={filter}
-                    onClick={() => setBetFilter(filter)}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                      isActive
-                        ? "bg-white text-theme-primary shadow-sm"
-                        : "text-gray-500 hover:text-gray-700"
-                    }`}
-                  >
-                    {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                    <span className={`ml-1.5 text-xs ${isActive ? "text-theme-primary" : "text-gray-400"}`}>
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
+            <div className="mb-4">
+              <BetFilter
+                value={betFilter}
+                onChange={setBetFilter}
+                counts={{
+                  all: bets.length,
+                  open: bets.filter((b) => b.status === "open").length,
+                  locked: bets.filter((b) => b.status === "locked").length,
+                  settled: bets.filter((b) => b.status === "settled").length,
+                }}
+              />
             </div>
           )}
 
@@ -721,32 +712,32 @@ export default function GroupDetailPage() {
               <Loader2 className="h-6 w-6 animate-spin text-theme-primary" />
             </div>
           ) : !bets || bets.length === 0 ? (
-            <div className="bg-gray-50 rounded-2xl p-8 text-center">
-              <div className="w-16 h-16 bg-theme-gradient-br rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Ticket className="h-8 w-8 text-white" />
-              </div>
-              <p className="text-gray-600 font-medium">No bets yet</p>
-              <p className="text-gray-400 text-sm mt-1">Create the first bet for your group</p>
-            </div>
+            <EmptyFilterState filter="all" />
           ) : (
-            <motion.div
-              variants={container}
-              initial="hidden"
-              animate="show"
-              className="space-y-3"
-            >
-              {bets.map((bet) => {
-                const statusInfo = getStatusInfo(bet.status);
-                const StatusIcon = statusInfo.icon;
-                const isOpenForBetting = bet.status === "open";
-                const userHasWager = bet.wagers?.some((w) => w.userId === session?.user?.id);
-                const matchesFilter = betFilter === "all" || bet.status === betFilter;
-                return (
-                  <motion.div
-                    key={bet.id}
-                    variants={item}
-                    className={matchesFilter ? "" : "opacity-40 scale-[0.98]"}
-                  >
+            (() => {
+              const filteredBets = bets.filter(
+                (bet) => betFilter === "all" || bet.status === betFilter
+              );
+
+              if (filteredBets.length === 0) {
+                return <EmptyFilterState filter={betFilter} />;
+              }
+
+              return (
+                <motion.div
+                  variants={container}
+                  initial="hidden"
+                  animate="show"
+                  className="space-y-3"
+                  key={betFilter} // Re-animate when filter changes
+                >
+                  {filteredBets.map((bet) => {
+                    const statusInfo = getStatusInfo(bet.status);
+                    const StatusIcon = statusInfo.icon;
+                    const isOpenForBetting = bet.status === "open";
+                    const userHasWager = bet.wagers?.some((w) => w.userId === session?.user?.id);
+                    return (
+                      <motion.div key={bet.id} variants={item}>
                     <Link href={`/bets/${bet.id}`}>
                       <div className={`bg-white rounded-2xl border p-4 hover:shadow-lg transition-all cursor-pointer ${
                         isOpenForBetting
@@ -808,10 +799,12 @@ export default function GroupDetailPage() {
                         </div>
                       </div>
                     </Link>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              );
+            })()
           )}
           </div>
 
