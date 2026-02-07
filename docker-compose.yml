@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: betting-app-db
+    environment:
+      POSTGRES_USER: betting_user
+      POSTGRES_PASSWORD: betting_password
+      POSTGRES_DB: betting_app
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U betting_user -d betting_app"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: betting-app
+    ports:
+      - "4000:3000"
+    environment:
+      - DATABASE_URL=postgresql://betting_user:betting_password@postgres:5432/betting_app
+      - NEXTAUTH_URL=https://parlay.builtbyeden.app
+      - NEXTAUTH_SECRET=your-super-secret-key-change-in-production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  postgres_data:
