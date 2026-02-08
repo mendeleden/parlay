@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme";
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
 import {
   Ticket,
   Users,
@@ -144,27 +144,39 @@ export default function LandingPage() {
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggle variant="dark" />
-              <SignedOut>
-                <SignInButton>
+              <ClerkLoading>
+                <Link href="/sign-in">
                   <Button
                     variant="ghost"
                     className="text-white/80 hover:text-white hover:bg-white/10 rounded-full px-6"
                   >
                     Sign In
                   </Button>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <Link href="/groups">
-                  <Button
-                    variant="ghost"
-                    className="text-white/80 hover:text-white hover:bg-white/10 rounded-full px-6"
-                  >
-                    Dashboard
-                  </Button>
                 </Link>
-                <UserButton />
-              </SignedIn>
+              </ClerkLoading>
+              <ClerkLoaded>
+                <SignedOut>
+                  <SignInButton>
+                    <Button
+                      variant="ghost"
+                      className="text-white/80 hover:text-white hover:bg-white/10 rounded-full px-6"
+                    >
+                      Sign In
+                    </Button>
+                  </SignInButton>
+                </SignedOut>
+                <SignedIn>
+                  <Link href="/groups">
+                    <Button
+                      variant="ghost"
+                      className="text-white/80 hover:text-white hover:bg-white/10 rounded-full px-6"
+                    >
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <UserButton />
+                </SignedIn>
+              </ClerkLoaded>
             </div>
           </motion.nav>
         </header>
@@ -217,8 +229,8 @@ export default function LandingPage() {
 
             {/* CTA */}
             <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 justify-center">
-              <SignedOut>
-                <SignUpButton>
+              <ClerkLoading>
+                <Link href="/sign-up">
                   <Button
                     size="lg"
                     className="w-full sm:w-auto bg-theme-gradient hover:opacity-90 text-white font-semibold text-lg px-8 py-7 rounded-2xl shadow-xl shadow-theme transition-all hover:shadow-2xl hover:scale-105"
@@ -226,8 +238,8 @@ export default function LandingPage() {
                     Get Started Free
                     <ChevronRight className="ml-2 h-5 w-5" />
                   </Button>
-                </SignUpButton>
-                <SignInButton>
+                </Link>
+                <Link href="/sign-in">
                   <Button
                     size="lg"
                     variant="outline"
@@ -235,19 +247,41 @@ export default function LandingPage() {
                   >
                     I have an account
                   </Button>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <Link href="/groups">
-                  <Button
-                    size="lg"
-                    className="w-full sm:w-auto bg-theme-gradient hover:opacity-90 text-white font-semibold text-lg px-8 py-7 rounded-2xl shadow-xl shadow-theme transition-all hover:shadow-2xl hover:scale-105"
-                  >
-                    Go to Dashboard
-                    <ChevronRight className="ml-2 h-5 w-5" />
-                  </Button>
                 </Link>
-              </SignedIn>
+              </ClerkLoading>
+              <ClerkLoaded>
+                <SignedOut>
+                  <SignUpButton>
+                    <Button
+                      size="lg"
+                      className="w-full sm:w-auto bg-theme-gradient hover:opacity-90 text-white font-semibold text-lg px-8 py-7 rounded-2xl shadow-xl shadow-theme transition-all hover:shadow-2xl hover:scale-105"
+                    >
+                      Get Started Free
+                      <ChevronRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </SignUpButton>
+                  <SignInButton>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="w-full sm:w-auto border-white/20 bg-transparent text-white/90 hover:text-white hover:bg-white/10 font-semibold text-lg px-8 py-7 rounded-2xl"
+                    >
+                      I have an account
+                    </Button>
+                  </SignInButton>
+                </SignedOut>
+                <SignedIn>
+                  <Link href="/groups">
+                    <Button
+                      size="lg"
+                      className="w-full sm:w-auto bg-theme-gradient hover:opacity-90 text-white font-semibold text-lg px-8 py-7 rounded-2xl shadow-xl shadow-theme transition-all hover:shadow-2xl hover:scale-105"
+                    >
+                      Go to Dashboard
+                      <ChevronRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                </SignedIn>
+              </ClerkLoaded>
             </motion.div>
           </motion.div>
 

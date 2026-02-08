@@ -1,15 +1,11 @@
 import { test, expect } from "@playwright/test";
-
-// Helper to create a test page with the modal
-async function setupTestPage(page: any) {
-  // We'll inject a test component that renders the modal
-  await page.goto("/");
-  await page.waitForLoadState("networkidle");
-}
+import { setupClerkTestingToken } from "@clerk/testing/playwright";
 
 test.describe("Import Markets Modal", () => {
   test.beforeEach(async ({ page }) => {
-    await setupTestPage(page);
+    await setupClerkTestingToken({ page });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
   });
 
   test("Polymarket API returns markets", async ({ page }) => {
