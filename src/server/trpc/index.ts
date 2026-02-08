@@ -1,5 +1,5 @@
 import { initTRPC, TRPCError } from "@trpc/server";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -15,6 +15,34 @@ export const createTRPCContext = cache(async () => {
     user = await db.query.users.findFirst({
       where: eq(users.clerkId, clerkId),
     });
+
+    // Auto-create user if they exist in Clerk but not in our DB
+    if (!user) {
+      const clerkUser = await currentUser();
+      if (clerkUser) {
+        const email = clerkUser.emailAddresses[0]?.emailAddress ?? "";
+        const baseUsername = email.split("@")[0].toLowerCase().replace(/[^a-z0-9]/g, "");
+        let username = baseUsername.slice(0, 15);
+
+        const existingUsername = await db.query.users.findFirst({
+          where: eq(users.username, username),
+        });
+        if (existingUsername) {
+          username = `${username.slice(0, 10)}${Math.random().toString(36).slice(2, 7)}`;
+        }
+
+        const [newUser] = await db
+          .insert(users)
+          .values({
+            clerkId,
+            email,
+            username,
+            avatar: clerkUser.imageUrl,
+          })
+          .returning();
+        user = newUser;
+      }
+    }
   }
 
   return {
