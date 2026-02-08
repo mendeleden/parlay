@@ -48,6 +48,8 @@ import { formatAmericanOdds, calculatePayout, isValidAmericanOdds } from "@/lib/
 import { CreditDisplay, CreditLeaderboard, AdminCreditDialog } from "@/components/credits";
 import { ParlayBuilderDialog } from "@/components/parlays";
 import { BetFilter, EmptyFilterState } from "@/components/ui/bet-filter";
+import { ImportBetsModal } from "@/components/markets/import-bets-modal";
+import { Import } from "lucide-react";
 
 const container = {
   hidden: { opacity: 0 },
@@ -90,6 +92,9 @@ export default function GroupDetailPage() {
 
   // Parlay builder dialog state
   const [parlayBuilderOpen, setParlayBuilderOpen] = useState(false);
+
+  // Import bets modal state
+  const [importBetsOpen, setImportBetsOpen] = useState(false);
 
   // Bet filter state
   const [betFilter, setBetFilter] = useState<"all" | "open" | "locked" | "settled">("all");
@@ -533,6 +538,17 @@ export default function GroupDetailPage() {
           <div>
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Bets</h3>
+              <div className="flex gap-2">
+                {isAdmin && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setImportBetsOpen(true)}
+                    className="border-theme-primary-200 text-theme-primary hover:bg-theme-primary-50"
+                  >
+                    <Import className="mr-2 h-4 w-4" />
+                    Import
+                  </Button>
+                )}
               <Dialog open={createBetOpen} onOpenChange={setCreateBetOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-theme-gradient hover:opacity-90">
@@ -689,6 +705,7 @@ export default function GroupDetailPage() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+              </div>
           </div>
 
           {/* Bet Filters */}
@@ -1009,6 +1026,18 @@ export default function GroupDetailPage() {
           availableCredits={myCredits ? parseFloat(myCredits.availableBalance) : undefined}
           onPlaceParlay={handlePlaceParlay}
           isPending={createParlayMutation.isPending}
+        />
+      )}
+
+      {/* Import Bets Modal */}
+      {actualGroupId && (
+        <ImportBetsModal
+          open={importBetsOpen}
+          onOpenChange={setImportBetsOpen}
+          groupId={actualGroupId}
+          onImportComplete={() => {
+            utils.bets.getByGroup.invalidate({ groupId: actualGroupId });
+          }}
         />
       )}
     </div>

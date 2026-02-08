@@ -237,14 +237,14 @@ export default function ParlaysPage() {
 
                             {/* Title */}
                             <h3 className="font-semibold text-gray-900 truncate group-hover:text-amber-600 transition-colors">
-                              {parlay.name}
+                              {parlay.legs?.length || 0}-Leg Parlay
                             </h3>
 
                             {/* Meta info */}
                             <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
-                              <span>by @{parlay.createdBy.username}</span>
+                              <span>by @{parlay.user?.username}</span>
                               {parlay.amount && (
-                                <span>${parlay.amount} stake</span>
+                                <span>${parseFloat(parlay.amount).toFixed(0)} stake</span>
                               )}
                             </div>
                           </div>
@@ -252,9 +252,13 @@ export default function ParlaysPage() {
 
                         {/* Right side - odds and arrow */}
                         <div className="flex items-center gap-3 shrink-0">
-                          {parlay.totalOdds && (
+                          {parlay.combinedDecimalOdds && (
                             <div className="hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-100 to-orange-100 text-amber-700 font-bold text-sm">
-                              {formatAmericanOdds(parlay.totalOdds)}
+                              {formatAmericanOdds(
+                                parseFloat(parlay.combinedDecimalOdds) >= 2
+                                  ? Math.round((parseFloat(parlay.combinedDecimalOdds) - 1) * 100)
+                                  : Math.round(-100 / (parseFloat(parlay.combinedDecimalOdds) - 1))
+                              )}
                             </div>
                           )}
                           <ChevronRight className="h-5 w-5 text-gray-300 group-hover:text-amber-400 transition-colors" />

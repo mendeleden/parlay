@@ -9,6 +9,8 @@ import {
   formatCurrency,
   parseOddsInput,
   isValidAmericanOdds,
+  probabilityToAmericanOdds,
+  formatVolume,
 } from "./odds";
 
 describe("Odds Utilities", () => {
@@ -148,6 +150,68 @@ describe("Odds Utilities", () => {
       expect(isValidAmericanOdds(-50)).toBe(false);
       expect(isValidAmericanOdds(99)).toBe(false);
       expect(isValidAmericanOdds(-99)).toBe(false);
+    });
+  });
+
+  describe("probabilityToAmericanOdds", () => {
+    it("converts favorite probabilities (>= 0.5) to negative odds", () => {
+      // 65% probability -> -186
+      expect(probabilityToAmericanOdds(0.65)).toBe(-186);
+      // 50% probability -> -100 (even)
+      expect(probabilityToAmericanOdds(0.5)).toBe(-100);
+      // 75% probability -> -300
+      expect(probabilityToAmericanOdds(0.75)).toBe(-300);
+      // 90% probability -> -900
+      expect(probabilityToAmericanOdds(0.9)).toBe(-900);
+    });
+
+    it("converts underdog probabilities (< 0.5) to positive odds", () => {
+      // 35% probability -> +186
+      expect(probabilityToAmericanOdds(0.35)).toBe(186);
+      // 25% probability -> +300
+      expect(probabilityToAmericanOdds(0.25)).toBe(300);
+      // 10% probability -> +900
+      expect(probabilityToAmericanOdds(0.1)).toBe(900);
+    });
+
+    it("clamps extreme probabilities to valid range", () => {
+      // Very low probability (clamped to 0.01)
+      expect(probabilityToAmericanOdds(0)).toBe(9900);
+      // Very high probability (clamped to 0.99)
+      expect(probabilityToAmericanOdds(1)).toBe(-9900);
+    });
+
+    it("is inverse of americanToImpliedProbability for valid ranges", () => {
+      const testProbabilities = [0.2, 0.35, 0.5, 0.65, 0.8];
+      for (const prob of testProbabilities) {
+        const odds = probabilityToAmericanOdds(prob);
+        const backToProbability = americanToImpliedProbability(odds);
+        expect(backToProbability).toBeCloseTo(prob, 1);
+      }
+    });
+  });
+
+  describe("formatVolume", () => {
+    it("formats millions correctly", () => {
+      expect(formatVolume(2450000)).toBe("$2.5M");
+      expect(formatVolume("1000000")).toBe("$1.0M");
+      expect(formatVolume(5500000)).toBe("$5.5M");
+    });
+
+    it("formats thousands correctly", () => {
+      expect(formatVolume(850000)).toBe("$850K");
+      expect(formatVolume("50000")).toBe("$50K");
+      expect(formatVolume(1500)).toBe("$2K");
+    });
+
+    it("formats small amounts correctly", () => {
+      expect(formatVolume(500)).toBe("$500");
+      expect(formatVolume("100")).toBe("$100");
+      expect(formatVolume(0)).toBe("$0");
+    });
+
+    it("handles invalid input", () => {
+      expect(formatVolume("invalid")).toBe("$0");
     });
   });
 });

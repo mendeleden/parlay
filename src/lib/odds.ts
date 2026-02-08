@@ -111,3 +111,47 @@ export function parseOddsInput(input: string): number | null {
 export function isValidAmericanOdds(odds: number): boolean {
   return odds !== 0 && (odds >= 100 || odds <= -100);
 }
+
+/**
+ * Convert probability (0-1) to American odds
+ * Used for importing from prediction markets like Polymarket
+ *
+ * @param probability - Probability between 0 and 1
+ * @returns American odds (positive for underdog, negative for favorite)
+ *
+ * @example
+ * probabilityToAmericanOdds(0.65) // -186 (favorite)
+ * probabilityToAmericanOdds(0.35) // +186 (underdog)
+ * probabilityToAmericanOdds(0.50) // -100 (even)
+ */
+export function probabilityToAmericanOdds(probability: number): number {
+  // Clamp probability to valid range
+  const prob = Math.max(0.01, Math.min(0.99, probability));
+
+  if (prob >= 0.5) {
+    // Favorite: negative odds
+    // Formula: -100 * p / (1 - p)
+    return Math.round(-100 * prob / (1 - prob));
+  } else {
+    // Underdog: positive odds
+    // Formula: 100 * (1 - p) / p
+    return Math.round(100 * (1 - prob) / prob);
+  }
+}
+
+/**
+ * Format volume for display (e.g., "$2.4M", "$850K")
+ */
+export function formatVolume(volume: string | number): string {
+  const num = typeof volume === 'string' ? parseFloat(volume) : volume;
+
+  if (isNaN(num)) return '$0';
+
+  if (num >= 1_000_000) {
+    return `$${(num / 1_000_000).toFixed(1)}M`;
+  } else if (num >= 1_000) {
+    return `$${(num / 1_000).toFixed(0)}K`;
+  } else {
+    return `$${num.toFixed(0)}`;
+  }
+}
