@@ -19,10 +19,6 @@ export default clerkMiddleware(async (auth, req) => {
 
   // Allow public routes
   if (isPublic) {
-    // Redirect logged-in users from landing page to dashboard
-    if (req.nextUrl.pathname === "/" && userId) {
-      return NextResponse.redirect(new URL("/groups", req.url));
-    }
     return NextResponse.next();
   }
 
