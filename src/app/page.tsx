@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import {
   Ticket,
   Users,
@@ -145,14 +145,14 @@ export default function LandingPage() {
             <div className="flex items-center gap-2">
               <ThemeToggle variant="dark" />
               <SignedOut>
-                <Link href="/sign-in">
+                <SignInButton>
                   <Button
                     variant="ghost"
                     className="text-white/80 hover:text-white hover:bg-white/10 rounded-full px-6"
                   >
                     Sign In
                   </Button>
-                </Link>
+                </SignInButton>
               </SignedOut>
               <SignedIn>
                 <Link href="/groups">
@@ -218,7 +218,7 @@ export default function LandingPage() {
             {/* CTA */}
             <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 justify-center">
               <SignedOut>
-                <Link href="/sign-up">
+                <SignUpButton>
                   <Button
                     size="lg"
                     className="w-full sm:w-auto bg-theme-gradient hover:opacity-90 text-white font-semibold text-lg px-8 py-7 rounded-2xl shadow-xl shadow-theme transition-all hover:shadow-2xl hover:scale-105"
@@ -226,8 +226,8 @@ export default function LandingPage() {
                     Get Started Free
                     <ChevronRight className="ml-2 h-5 w-5" />
                   </Button>
-                </Link>
-                <Link href="/sign-in">
+                </SignUpButton>
+                <SignInButton>
                   <Button
                     size="lg"
                     variant="outline"
@@ -235,7 +235,7 @@ export default function LandingPage() {
                   >
                     I have an account
                   </Button>
-                </Link>
+                </SignInButton>
               </SignedOut>
               <SignedIn>
                 <Link href="/groups">
