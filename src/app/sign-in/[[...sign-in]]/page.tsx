@@ -10,7 +10,7 @@ export default function SignInPage() {
             card: "bg-card shadow-lg",
           },
         }}
-        afterSignInUrl="/groups"
+        fallbackRedirectUrl="/groups"
         signUpUrl="/sign-up"
       />
     </div>
