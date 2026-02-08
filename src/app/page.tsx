@@ -143,7 +143,7 @@ export default function LandingPage() {
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggle variant="dark" />
-              <SignInButton>
+              <SignInButton forceRedirectUrl="/groups">
                 <Button
                   variant="ghost"
                   className="text-white/80 hover:text-white hover:bg-white/10 rounded-full px-6"
@@ -203,7 +203,7 @@ export default function LandingPage() {
 
             {/* CTA */}
             <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 justify-center">
-              <SignUpButton>
+              <SignUpButton forceRedirectUrl="/groups">
                 <Button
                   size="lg"
                   className="w-full sm:w-auto bg-theme-gradient hover:opacity-90 text-white font-semibold text-lg px-8 py-7 rounded-2xl shadow-xl shadow-theme transition-all hover:shadow-2xl hover:scale-105"
@@ -212,7 +212,7 @@ export default function LandingPage() {
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </SignUpButton>
-              <SignInButton>
+              <SignInButton forceRedirectUrl="/groups">
                 <Button
                   size="lg"
                   variant="outline"
