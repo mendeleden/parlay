@@ -2,18 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, Ticket, Menu, LogOut, User } from "lucide-react";
+import { Users, Ticket, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -26,18 +17,8 @@ const navItems = [
 
 export function Navbar() {
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { isSignedIn } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const getInitials = (name: string | null | undefined) => {
-    if (!name) return "U";
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-theme-primary-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -128,52 +109,15 @@ export function Navbar() {
 
         <div className="flex items-center space-x-2">
           <ThemeToggle />
-          {session?.user && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="relative h-9 w-9 rounded-full ring-2 ring-theme-primary-100 hover:ring-theme-primary-200"
-                >
-                  <Avatar className="h-9 w-9">
-                    <AvatarImage
-                      src={session.user.image || undefined}
-                      alt={session.user.name || "User"}
-                    />
-                    <AvatarFallback className="bg-theme-gradient-br text-white font-semibold">
-                      {getInitials(session.user.name)}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      @{session.user.name}
-                    </p>
-                    <p className="text-xs leading-none text-muted-foreground">
-                      {session.user.email}
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile" className="cursor-pointer">
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="cursor-pointer text-red-600 focus:text-red-600"
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          {isSignedIn && (
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: "h-9 w-9 ring-2 ring-theme-primary-100 hover:ring-theme-primary-200",
+                },
+              }}
+            />
           )}
         </div>
       </div>

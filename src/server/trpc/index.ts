@@ -1,15 +1,26 @@
 import { initTRPC, TRPCError } from "@trpc/server";
-import { auth } from "@/lib/auth";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import superjson from "superjson";
 import { cache } from "react";
 
 export const createTRPCContext = cache(async () => {
-  const session = await auth();
+  const { userId: clerkId } = await auth();
+
+  let user = null;
+  if (clerkId) {
+    // Look up user by clerkId
+    user = await db.query.users.findFirst({
+      where: eq(users.clerkId, clerkId),
+    });
+  }
+
   return {
     db,
-    session,
-    user: session?.user,
+    clerkId,
+    user,
   };
 });
 
@@ -22,12 +33,12 @@ export const publicProcedure = t.procedure;
 export const createCallerFactory = t.createCallerFactory;
 
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.user) {
+  if (!ctx.clerkId || !ctx.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
-      session: ctx.session,
+      clerkId: ctx.clerkId,
       user: ctx.user,
     },
   });

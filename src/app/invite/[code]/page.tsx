@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { trpc } from "@/trpc/client";
@@ -23,7 +23,8 @@ export default function InvitePage() {
   const params = useParams();
   const router = useRouter();
   const code = params.code as string;
-  const { data: session, status: sessionStatus } = useSession();
+  const { isLoaded, isSignedIn } = useUser();
+  const sessionStatus = !isLoaded ? "loading" : isSignedIn ? "authenticated" : "unauthenticated";
 
   // Get public group info (works for unauthenticated users too)
   const { data: publicGroup, isLoading: publicLoading, isFetched: publicFetched } =
@@ -289,13 +290,13 @@ export default function InvitePage() {
 
               {/* Action buttons */}
               <div className="space-y-3">
-                <Link href={`/auth/signup?redirect=/invite/${code}`}>
+                <Link href={`/sign-up?redirect=/invite/${code}`}>
                   <Button className="w-full bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600">
                     <UserPlus className="mr-2 h-4 w-4" />
                     Sign Up to Join
                   </Button>
                 </Link>
-                <Link href={`/auth/signin?redirect=/invite/${code}`}>
+                <Link href={`/sign-in?redirect=/invite/${code}`}>
                   <Button
                     variant="outline"
                     className="w-full border-white/40 bg-white/10 text-white hover:bg-white/20 hover:border-white/60"

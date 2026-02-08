@@ -1,46 +1,34 @@
-import { auth } from "@/lib/auth";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export default auth((req) => {
-  const isLoggedIn = !!req.auth;
-  const isAuthPage = req.nextUrl.pathname.startsWith("/auth");
-  const isApiAuthRoute = req.nextUrl.pathname.startsWith("/api/auth");
-  const isApiTrpcRoute = req.nextUrl.pathname.startsWith("/api/trpc");
-  const isLandingPage = req.nextUrl.pathname === "/";
-  const isInvitePage = req.nextUrl.pathname.startsWith("/invite");
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/auth/signin(.*)",
+  "/auth/signup(.*)",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/api/trpc(.*)",
+  "/api/webhooks(.*)",
+  "/stats",
+  "/invite/(.*)",
+]);
 
-  // Allow API routes to pass through
-  if (isApiAuthRoute || isApiTrpcRoute) {
-    return NextResponse.next();
-  }
+export default clerkMiddleware(async (auth, req) => {
+  const { userId } = await auth();
+  const isPublic = isPublicRoute(req);
 
-  // Allow landing page for everyone
-  if (isLandingPage) {
-    // Redirect logged-in users to dashboard
-    if (isLoggedIn) {
+  // Allow public routes
+  if (isPublic) {
+    // Redirect logged-in users from landing page to dashboard
+    if (req.nextUrl.pathname === "/" && userId) {
       return NextResponse.redirect(new URL("/groups", req.url));
     }
     return NextResponse.next();
   }
 
-  // Redirect logged-in users away from auth pages
-  if (isAuthPage && isLoggedIn) {
-    return NextResponse.redirect(new URL("/groups", req.url));
-  }
-
-  // Allow auth pages for non-logged-in users
-  if (isAuthPage) {
-    return NextResponse.next();
-  }
-
-  // Allow invite pages for everyone (handles auth inside the page)
-  if (isInvitePage) {
-    return NextResponse.next();
-  }
-
   // Protect all other routes
-  if (!isLoggedIn) {
-    return NextResponse.redirect(new URL("/auth/signin", req.url));
+  if (!userId) {
+    return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 
   return NextResponse.next();

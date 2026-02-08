@@ -17,13 +17,13 @@ import {
   PartyPopper,
 } from "lucide-react";
 import { useDebounce } from "@/hooks/use-debounce";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 
 export default function OnboardingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/groups";
-  const { data: session, update } = useSession();
+  const { isLoaded, isSignedIn } = useUser();
   const [username, setUsername] = useState("");
 
   const debouncedUsername = useDebounce(username, 500);
@@ -35,8 +35,6 @@ export default function OnboardingPage() {
 
   const updateUsernameMutation = trpc.auth.updateUsername.useMutation({
     onSuccess: async () => {
-      // Update the session with new username
-      await update({ name: username });
       toast.success("You're all set! Let's go!");
       router.push(redirectTo);
       router.refresh();
@@ -61,12 +59,12 @@ export default function OnboardingPage() {
 
   // Redirect if not logged in
   useEffect(() => {
-    if (session === null) {
-      router.push("/auth/signin");
+    if (isLoaded && !isSignedIn) {
+      router.push("/sign-in");
     }
-  }, [session, router]);
+  }, [isLoaded, isSignedIn, router]);
 
-  if (!session) {
+  if (!isLoaded || !isSignedIn) {
     return (
       <div className="min-h-screen bg-[#0A0118] flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-violet-500" />

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { auth } from "@clerk/nextjs/server";
 import { Navbar } from "@/components/layout/navbar";
 
 export default async function DashboardLayout({
@@ -7,10 +7,10 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session) {
-    redirect("/auth/signin");
+  if (!userId) {
+    redirect("/sign-in");
   }
 
   return (
