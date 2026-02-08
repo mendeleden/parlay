@@ -46,8 +46,8 @@ const features = [
     icon: Users,
     title: "Private Groups",
     description: "Create invite-only betting pools with friends",
-    color: "from-yellow-400 to-orange-500",
-    bg: "bg-yellow-400/20",
+    color: "from-amber-400 to-orange-500",
+    bg: "bg-amber-400/20",
   },
   {
     icon: TrendingUp,
@@ -68,7 +68,7 @@ const features = [
 const stats = [
   { value: "0", label: "Real Money", icon: Trophy },
   { value: "100%", label: "Bragging Rights", icon: Target },
-  { value: "∞", label: "Fun", icon: Sparkles },
+  { value: "\u221E", label: "Fun", icon: Sparkles },
 ];
 
 export default function LandingPage() {
@@ -76,40 +76,42 @@ export default function LandingPage() {
   const backgroundY = useTransform(scrollY, [0, 500], [0, 150]);
 
   return (
-    <div className="min-h-screen bg-[#0A0118] overflow-hidden">
+    <div className="min-h-screen bg-[#13111C] overflow-hidden">
       {/* Animated gradient background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Main gradient orbs */}
+        {/* Main gradient orbs - brand violet */}
         <motion.div
           style={{ y: backgroundY }}
           className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full"
           animate={{
             background: [
-              "radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%)",
-              "radial-gradient(circle, rgba(192, 132, 252, 0.4) 0%, transparent 70%)",
-              "radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(124, 92, 252, 0.3) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(124, 92, 252, 0.3) 0%, transparent 70%)",
             ],
           }}
           transition={{ duration: 5, repeat: Infinity }}
         />
+        {/* Brand pink */}
         <motion.div
           className="absolute top-1/3 -left-40 w-[500px] h-[500px] rounded-full"
           animate={{
             background: [
-              "radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(232, 67, 147, 0.2) 0%, transparent 70%)",
               "radial-gradient(circle, rgba(244, 114, 182, 0.3) 0%, transparent 70%)",
-              "radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(232, 67, 147, 0.2) 0%, transparent 70%)",
             ],
           }}
           transition={{ duration: 6, repeat: Infinity, delay: 1 }}
         />
+        {/* Amber accent */}
         <motion.div
           className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full"
           animate={{
             background: [
-              "radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, transparent 70%)",
-              "radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%)",
-              "radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%)",
             ],
           }}
           transition={{ duration: 7, repeat: Infinity, delay: 2 }}
@@ -176,7 +178,7 @@ export default function LandingPage() {
             {/* Badge */}
             <motion.div variants={item} className="mb-8">
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
-                <Sparkles className="h-4 w-4 text-yellow-400" />
+                <Sparkles className="h-4 w-4 text-amber-400" />
                 No real money. Just bragging rights.
               </span>
             </motion.div>
@@ -187,7 +189,7 @@ export default function LandingPage() {
               className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white leading-[1.1] tracking-tight mb-6"
             >
               Bet with your{" "}
-              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#7C5CFC] via-[#E84393] to-[#F59E0B] bg-clip-text text-transparent">
                 friends
               </span>
             </motion.h1>
@@ -231,7 +233,7 @@ export default function LandingPage() {
             animate="show"
             className="max-w-2xl mx-auto mt-20 grid grid-cols-3 gap-4"
           >
-            {stats.map((stat, i) => (
+            {stats.map((stat) => (
               <motion.div
                 key={stat.label}
                 variants={item}
@@ -255,7 +257,7 @@ export default function LandingPage() {
             animate="show"
             className="max-w-4xl mx-auto mt-24 grid grid-cols-1 sm:grid-cols-3 gap-6"
           >
-            {features.map((feature, i) => (
+            {features.map((feature) => (
               <motion.div
                 key={feature.title}
                 variants={item}

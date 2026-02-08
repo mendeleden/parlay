@@ -87,17 +87,17 @@ export default function BetsPage() {
         return {
           icon: XCircle,
           label: "Cancelled",
-          bg: "bg-gray-100",
-          text: "text-gray-600",
+          bg: "bg-muted",
+          text: "text-muted-foreground",
           gradient: "from-gray-400 to-gray-500",
         };
       default:
         return {
           icon: Clock,
           label: "Open",
-          bg: "bg-violet-100",
-          text: "text-violet-700",
-          gradient: "from-violet-500 to-fuchsia-500",
+          bg: "bg-theme-primary-100",
+          text: "text-theme-primary",
+          gradient: "from-[#7C5CFC] to-[#E84393]",
         };
     }
   };
@@ -106,8 +106,8 @@ export default function BetsPage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-violet-500" />
-          <p className="text-gray-500">Loading your bets...</p>
+          <Loader2 className="h-8 w-8 animate-spin text-theme-primary" />
+          <p className="text-muted-foreground">Loading your bets...</p>
         </div>
       </div>
     );
@@ -122,19 +122,19 @@ export default function BetsPage() {
         className="flex flex-col gap-4"
       >
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+          <h1 className="text-2xl sm:text-3xl font-bold text-theme-gradient bg-clip-text text-transparent">
             All Bets
           </h1>
-          <p className="text-gray-500 text-sm sm:text-base mt-1">
+          <p className="text-muted-foreground text-sm sm:text-base mt-1">
             Track and manage bets across all your groups
           </p>
         </div>
 
         {/* Filter */}
         <div className="flex items-center gap-3">
-          <Filter className="h-4 w-4 text-gray-400" />
+          <Filter className="h-4 w-4 text-muted-foreground" />
           <Select value={selectedGroup} onValueChange={setSelectedGroup}>
-            <SelectTrigger className="w-[180px] border-gray-200 focus:ring-violet-500">
+            <SelectTrigger className="w-[180px] border-border focus:ring-theme-primary">
               <SelectValue placeholder="Filter by group" />
             </SelectTrigger>
             <SelectContent>
@@ -157,22 +157,22 @@ export default function BetsPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-gradient-to-br from-violet-50 to-fuchsia-50 rounded-3xl p-8 sm:p-12 text-center border border-violet-100"
+            className="bg-theme-gradient-light rounded-3xl p-8 sm:p-12 text-center border border-theme-primary-100"
           >
-            <div className="mx-auto w-16 h-16 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center mb-6">
+            <div className="mx-auto w-16 h-16 bg-theme-gradient-br rounded-2xl flex items-center justify-center mb-6">
               <Ticket className="h-8 w-8 text-white" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <h3 className="text-xl font-semibold text-foreground mb-2">
               No bets found
             </h3>
-            <p className="text-gray-500 mb-6 max-w-sm mx-auto">
+            <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
               {selectedGroup === "all"
                 ? "Create your first bet in one of your groups to start betting with friends"
                 : "No bets in this group yet. Be the first to create one!"}
             </p>
             <Button
               asChild
-              className="bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600"
+              className="bg-theme-gradient hover:opacity-90"
             >
               <Link href="/groups">Go to Groups</Link>
             </Button>
@@ -195,7 +195,7 @@ export default function BetsPage() {
               return (
                 <motion.div key={bet.id} variants={item}>
                   <Link href={`/bets/${bet.id}`}>
-                    <div className="group p-4 sm:p-5 rounded-2xl bg-white border border-gray-100 hover:border-violet-200 hover:shadow-lg hover:shadow-violet-100/50 transition-all duration-300 cursor-pointer">
+                    <div className="group p-4 sm:p-5 rounded-2xl bg-card border border-border hover:border-theme-primary-200 hover:shadow-lg hover:shadow-theme transition-all duration-300 cursor-pointer">
                       <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
                           {/* Icon with gradient */}
@@ -210,7 +210,7 @@ export default function BetsPage() {
                             <div className="flex items-center gap-2 flex-wrap mb-1">
                               <Badge
                                 variant="outline"
-                                className="text-xs border-violet-200 text-violet-600"
+                                className="text-xs border-theme-primary-200 text-theme-primary"
                               >
                                 {bet.groupName}
                               </Badge>
@@ -223,12 +223,12 @@ export default function BetsPage() {
                             </div>
 
                             {/* Title */}
-                            <h3 className="font-semibold text-gray-900 truncate group-hover:text-violet-600 transition-colors">
+                            <h3 className="font-semibold text-foreground truncate group-hover:text-theme-primary transition-colors">
                               {bet.title}
                             </h3>
 
                             {/* Meta info */}
-                            <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                            <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
                               <span>by @{bet.createdBy.username}</span>
                               {bet.options?.length > 0 && (
                                 <span>{bet.options.length} options</span>
@@ -245,7 +245,7 @@ export default function BetsPage() {
                               {formatAmericanOdds(bestOdds)}
                             </div>
                           )}
-                          <ChevronRight className="h-5 w-5 text-gray-300 group-hover:text-violet-400 transition-colors" />
+                          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-theme-primary-light transition-colors" />
                         </div>
                       </div>
                     </div>

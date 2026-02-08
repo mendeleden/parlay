@@ -302,9 +302,9 @@ export default function GroupDetailPage() {
       case "settled":
         return { icon: CheckCircle, color: "text-blue-600", bg: "bg-blue-100", label: "Settled" };
       case "cancelled":
-        return { icon: XCircle, color: "text-gray-600", bg: "bg-gray-100", label: "Cancelled" };
+        return { icon: XCircle, color: "text-muted-foreground", bg: "bg-muted", label: "Cancelled" };
       default:
-        return { icon: Clock, color: "text-gray-600", bg: "bg-gray-100", label: status };
+        return { icon: Clock, color: "text-muted-foreground", bg: "bg-muted", label: status };
     }
   };
 
@@ -313,7 +313,7 @@ export default function GroupDetailPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-theme-primary" />
-          <p className="text-gray-500">Loading group...</p>
+          <p className="text-muted-foreground">Loading group...</p>
         </div>
       </div>
     );
@@ -322,7 +322,7 @@ export default function GroupDetailPage() {
   if (!group) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <p className="text-gray-500 mb-4">Group not found</p>
+        <p className="text-muted-foreground mb-4">Group not found</p>
         <Button
           onClick={() => router.push("/groups")}
           className="bg-theme-gradient"
@@ -367,7 +367,7 @@ export default function GroupDetailPage() {
             )}
           </div>
           {group.description && (
-            <p className="text-gray-500 text-sm mt-1">{group.description}</p>
+            <p className="text-muted-foreground text-sm mt-1">{group.description}</p>
           )}
         </div>
       </motion.div>
@@ -381,7 +381,7 @@ export default function GroupDetailPage() {
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-sm text-gray-500 mb-1">Invite Code</p>
+            <p className="text-sm text-muted-foreground mb-1">Invite Code</p>
             <div className="flex items-center gap-2">
               <code className="text-xl sm:text-2xl font-mono font-bold text-theme-primary tracking-wider">
                 {group.inviteCode}
@@ -427,14 +427,14 @@ export default function GroupDetailPage() {
           </div>
           <div className="flex items-center gap-6">
             <div className="text-center">
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-2xl font-bold text-foreground">
                 {group.memberships?.filter((m) => m.status === "approved").length || 0}
               </p>
-              <p className="text-xs text-gray-500">Members</p>
+              <p className="text-xs text-muted-foreground">Members</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-gray-900">{bets?.length || 0}</p>
-              <p className="text-xs text-gray-500">Bets</p>
+              <p className="text-2xl font-bold text-foreground">{bets?.length || 0}</p>
+              <p className="text-xs text-muted-foreground">Bets</p>
             </div>
           </div>
         </div>
@@ -464,7 +464,7 @@ export default function GroupDetailPage() {
             {pendingRequests.map((request) => (
               <div
                 key={request.userId}
-                className="flex items-center justify-between bg-white rounded-xl p-3"
+                className="flex items-center justify-between bg-card rounded-xl p-3"
               >
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
@@ -475,7 +475,7 @@ export default function GroupDetailPage() {
                   </Avatar>
                   <div>
                     <p className="font-medium">@{request.user.username}</p>
-                    <p className="text-sm text-gray-500">{request.user.email}</p>
+                    <p className="text-sm text-muted-foreground">{request.user.email}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -518,14 +518,14 @@ export default function GroupDetailPage() {
         <TabsList className="w-full sm:w-auto bg-theme-primary-50 p-1 rounded-xl">
           <TabsTrigger
             value="activity"
-            className="flex-1 sm:flex-initial data-[state=active]:bg-white data-[state=active]:text-theme-primary rounded-lg"
+            className="flex-1 sm:flex-initial data-[state=active]:bg-card data-[state=active]:text-theme-primary rounded-lg"
           >
             <Ticket className="h-4 w-4 mr-2" />
             Activity
           </TabsTrigger>
           <TabsTrigger
             value="members"
-            className="flex-1 sm:flex-initial data-[state=active]:bg-white data-[state=active]:text-theme-primary rounded-lg"
+            className="flex-1 sm:flex-initial data-[state=active]:bg-card data-[state=active]:text-theme-primary rounded-lg"
           >
             <Users className="h-4 w-4 mr-2" />
             Members
@@ -537,7 +537,7 @@ export default function GroupDetailPage() {
           {/* Bets Section */}
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Bets</h3>
+              <h3 className="text-lg font-semibold text-foreground">Bets</h3>
               <div className="flex gap-2">
                 {isAdmin && (
                   <Button
@@ -665,17 +665,17 @@ export default function GroupDetailPage() {
                               )}
                             </div>
                             {oddsValid && (
-                              <p className="text-xs text-gray-500 pl-1">
-                                Bet <span className="font-medium text-gray-700">$100</span> → Get back{" "}
+                              <p className="text-xs text-muted-foreground pl-1">
+                                Bet <span className="font-medium text-foreground">$100</span> → Get back{" "}
                                 <span className="font-medium text-theme-primary">${payout.toFixed(0)}</span>
-                                <span className="text-gray-400"> (${(payout - 100).toFixed(0)} profit)</span>
+                                <span className="text-muted-foreground"> (${(payout - 100).toFixed(0)} profit)</span>
                               </p>
                             )}
                           </motion.div>
                         );
                       })}
                     </AnimatePresence>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       Tap +/− to toggle. <span className="text-emerald-600">+150</span> = underdog (bet $100, win $150). <span className="text-red-600">−150</span> = favorite (bet $150, win $100).
                     </p>
                   </div>
@@ -756,15 +756,15 @@ export default function GroupDetailPage() {
                     return (
                       <motion.div key={bet.id} variants={item}>
                     <Link href={`/bets/${bet.id}`}>
-                      <div className={`bg-white rounded-2xl border p-4 hover:shadow-lg transition-all cursor-pointer ${
+                      <div className={`bg-card rounded-2xl border p-4 hover:shadow-lg transition-all cursor-pointer ${
                         isOpenForBetting
                           ? "border-theme-primary-200 hover:border-theme-primary hover:shadow-theme"
-                          : "border-gray-100 hover:border-gray-200"
+                          : "border-border hover:border-border"
                       }`}>
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap mb-2">
-                              <h4 className="font-semibold text-gray-900">
+                              <h4 className="font-semibold text-foreground">
                                 {bet.title}
                               </h4>
                               <Badge className={`${statusInfo.bg} ${statusInfo.color}`}>
@@ -779,7 +779,7 @@ export default function GroupDetailPage() {
                               )}
                             </div>
                             {bet.description && (
-                              <p className="text-sm text-gray-500 mb-3 line-clamp-1">
+                              <p className="text-sm text-muted-foreground mb-3 line-clamp-1">
                                 {bet.description}
                               </p>
                             )}
@@ -788,7 +788,7 @@ export default function GroupDetailPage() {
                               {bet.options?.map((option) => (
                                 <span
                                   key={option.id}
-                                  className="text-xs bg-gray-100 px-2 py-1.5 rounded-lg"
+                                  className="text-xs bg-muted px-2 py-1.5 rounded-lg"
                                 >
                                   {option.name}{" "}
                                   <span className="font-semibold text-theme-primary">
@@ -800,17 +800,17 @@ export default function GroupDetailPage() {
                           </div>
                           <div className="flex flex-col items-end gap-2 shrink-0">
                             <div className="text-right">
-                              <p className="text-sm font-medium text-gray-900">
+                              <p className="text-sm font-medium text-foreground">
                                 {bet.wagers?.length || 0}
                               </p>
-                              <p className="text-xs text-gray-500">wagers</p>
+                              <p className="text-xs text-muted-foreground">wagers</p>
                             </div>
                             {isOpenForBetting && !userHasWager ? (
                               <span className="text-xs font-medium text-theme-primary flex items-center gap-1">
                                 Place wager <ChevronRight className="h-4 w-4" />
                               </span>
                             ) : (
-                              <ChevronRight className="h-5 w-5 text-gray-300" />
+                              <ChevronRight className="h-5 w-5 text-muted-foreground" />
                             )}
                           </div>
                         </div>
@@ -830,7 +830,7 @@ export default function GroupDetailPage() {
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center gap-2">
                 <Layers className="h-5 w-5 text-theme-primary" />
-                <h3 className="text-lg font-semibold text-gray-900">My Parlays</h3>
+                <h3 className="text-lg font-semibold text-foreground">My Parlays</h3>
               </div>
               <Button
                 size="sm"
@@ -847,12 +847,12 @@ export default function GroupDetailPage() {
                 <Loader2 className="h-6 w-6 animate-spin text-theme-primary" />
               </div>
             ) : !parlays || parlays.filter((p) => p.userId === user?.id).length === 0 ? (
-              <div className="bg-gray-50 rounded-2xl p-6 text-center">
+              <div className="bg-muted rounded-2xl p-6 text-center">
                 <div className="w-12 h-12 bg-theme-gradient-br rounded-xl flex items-center justify-center mx-auto mb-3">
                   <Layers className="h-6 w-6 text-white" />
                 </div>
-                <p className="text-gray-600 font-medium mb-1">No parlays yet</p>
-                <p className="text-gray-400 text-sm mb-3">
+                <p className="text-muted-foreground font-medium mb-1">No parlays yet</p>
+                <p className="text-muted-foreground text-sm mb-3">
                   Combine multiple bets for bigger payouts
                 </p>
                 <Button
@@ -884,7 +884,7 @@ export default function GroupDetailPage() {
                       parlay.legs?.every((leg) => leg.bet?.status === "open");
                     return (
                       <motion.div key={parlay.id} variants={item}>
-                        <div className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-theme-primary-200 hover:shadow-lg hover:shadow-theme transition-all">
+                        <div className="bg-card rounded-2xl border border-border p-4 hover:border-theme-primary-200 hover:shadow-lg hover:shadow-theme transition-all">
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
@@ -910,7 +910,7 @@ export default function GroupDetailPage() {
                                         ? "bg-green-50 text-green-700"
                                         : leg.result === "lost"
                                         ? "bg-red-50 text-red-700 line-through"
-                                        : "bg-gray-100 text-gray-700"
+                                        : "bg-muted text-foreground"
                                     }`}
                                   >
                                     {leg.option?.name || "Pick"}
@@ -950,7 +950,7 @@ export default function GroupDetailPage() {
                               </div>
                             </div>
                             <div className="text-right shrink-0">
-                              <p className="text-sm text-gray-500">
+                              <p className="text-sm text-muted-foreground">
                                 ${parseFloat(parlay.amount).toFixed(0)} to win
                               </p>
                               <p className="font-bold text-theme-primary">
@@ -971,7 +971,7 @@ export default function GroupDetailPage() {
         <TabsContent value="members" className="mt-4">
           <div className="flex items-center gap-2 mb-4">
             <Trophy className="h-5 w-5 text-yellow-500" />
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-foreground">
               Credit Leaderboard
             </h3>
           </div>

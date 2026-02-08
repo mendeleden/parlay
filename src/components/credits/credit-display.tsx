@@ -25,11 +25,11 @@ export function CreditDisplay({
     return (
       <div className="flex items-center gap-2 text-sm">
         <Coins className="h-4 w-4 text-theme-primary" />
-        <span className="font-medium text-gray-900">
+        <span className="font-medium text-foreground">
           {formatCurrency(available)}
         </span>
         {allocated > 0 && (
-          <span className="text-gray-400">
+          <span className="text-muted-foreground">
             ({formatCurrency(allocated)} locked)
           </span>
         )}
@@ -45,7 +45,7 @@ export function CreditDisplay({
     >
       <div className="flex items-center gap-2 mb-4">
         <Wallet className="h-5 w-5 text-theme-primary" />
-        <h3 className="font-semibold text-gray-900">Your Credits</h3>
+        <h3 className="font-semibold text-foreground">Your Credits</h3>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
@@ -56,7 +56,7 @@ export function CreditDisplay({
           <p className="text-2xl font-bold text-green-600">
             {formatCurrency(available)}
           </p>
-          <p className="text-xs text-gray-500">Available</p>
+          <p className="text-xs text-muted-foreground">Available</p>
         </div>
 
         <div className="text-center">
@@ -66,7 +66,7 @@ export function CreditDisplay({
           <p className="text-2xl font-bold text-yellow-600">
             {formatCurrency(allocated)}
           </p>
-          <p className="text-xs text-gray-500">In Bets</p>
+          <p className="text-xs text-muted-foreground">In Bets</p>
         </div>
 
         <div className="text-center">
@@ -76,7 +76,7 @@ export function CreditDisplay({
           <p className="text-2xl font-bold text-theme-primary">
             {formatCurrency(total)}
           </p>
-          <p className="text-xs text-gray-500">Total</p>
+          <p className="text-xs text-muted-foreground">Total</p>
         </div>
       </div>
     </motion.div>

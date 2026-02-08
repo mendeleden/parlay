@@ -21,7 +21,7 @@ import { useUser } from "@clerk/nextjs";
 
 export default function OnboardingPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0A0118] flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-violet-500" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#13111C] flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-theme-primary" /></div>}>
       <OnboardingContent />
     </Suspense>
   );
@@ -74,14 +74,14 @@ function OnboardingContent() {
 
   if (!isLoaded || !isSignedIn) {
     return (
-      <div className="min-h-screen bg-[#0A0118] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-violet-500" />
+      <div className="min-h-screen bg-[#13111C] flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-theme-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0118] flex flex-col overflow-hidden relative">
+    <div className="min-h-screen bg-[#13111C] flex flex-col overflow-hidden relative">
       {/* Background gradient orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -132,7 +132,7 @@ function OnboardingContent() {
           className="flex items-center justify-center max-w-md mx-auto"
         >
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl">
+            <div className="p-2 bg-theme-gradient-br rounded-xl">
               <Ticket className="h-5 w-5 text-white" />
             </div>
             <span className="font-bold text-white text-lg">Parlay</span>
@@ -186,7 +186,7 @@ function OnboardingContent() {
                     onChange={(e) =>
                       setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                     }
-                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500 focus:ring-violet-500/20 rounded-xl h-12 pl-8 pr-10"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-theme-primary focus:ring-theme-primary/20 rounded-xl h-12 pl-8 pr-10"
                     autoFocus
                   />
                   {username.length >= 3 && (
@@ -228,7 +228,7 @@ function OnboardingContent() {
               <Button
                 type="submit"
                 disabled={!isFormValid || updateUsernameMutation.isPending}
-                className="w-full bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 text-white font-semibold h-12 rounded-xl shadow-lg shadow-violet-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-xl hover:shadow-violet-500/30"
+                className="w-full bg-theme-gradient hover:opacity-90 text-white font-semibold h-12 rounded-xl shadow-lg shadow-theme disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-xl hover:shadow-theme"
               >
                 {updateUsernameMutation.isPending ? (
                   <Loader2 className="h-5 w-5 animate-spin" />

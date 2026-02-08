@@ -128,7 +128,7 @@ export function AdminCreditDialog({
           <div className="space-y-2">
             <Label htmlFor="amount">Amount</Label>
             <div className="relative">
-              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 id="amount"
                 type="number"
@@ -163,11 +163,11 @@ export function AdminCreditDialog({
               }`}
             >
               <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600">Current Balance:</span>
+                <span className="text-muted-foreground">Current Balance:</span>
                 <span className="font-medium">{formatCurrency(current)}</span>
               </div>
               <div className="flex justify-between items-center text-sm mt-1">
-                <span className="text-gray-600">
+                <span className="text-muted-foreground">
                   {mode === "add" ? "Adding:" : "Removing:"}
                 </span>
                 <span
@@ -179,12 +179,12 @@ export function AdminCreditDialog({
                   {formatCurrency(numAmount)}
                 </span>
               </div>
-              <div className="border-t border-gray-200 my-2" />
+              <div className="border-t border-border my-2" />
               <div className="flex justify-between items-center">
-                <span className="font-medium text-gray-700">New Balance:</span>
+                <span className="font-medium text-foreground">New Balance:</span>
                 <span
                   className={`text-xl font-bold ${
-                    mode === "add" ? "text-green-600" : "text-gray-900"
+                    mode === "add" ? "text-green-600" : "text-foreground"
                   }`}
                 >
                   {formatCurrency(preview)}

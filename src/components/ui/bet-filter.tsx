@@ -29,11 +29,11 @@ export function BetFilter({ value, onChange, counts }: BetFilterProps) {
   return (
     <div className="relative">
       {/* Container with subtle inset shadow for depth */}
-      <div className="relative flex bg-gray-100/80 backdrop-blur-sm p-1 rounded-xl shadow-inner">
+      <div className="relative flex bg-muted backdrop-blur-sm p-1 rounded-xl shadow-inner">
         {/* Animated pill background */}
         <motion.div
           layoutId="activeFilter"
-          className="absolute top-1 bottom-1 bg-white rounded-lg shadow-sm"
+          className="absolute top-1 bottom-1 bg-card rounded-lg shadow-sm"
           style={{
             left: `calc(${filters.indexOf(value)} * 25% + 4px)`,
             width: "calc(25% - 8px)",
@@ -61,8 +61,8 @@ export function BetFilter({ value, onChange, counts }: BetFilterProps) {
                 py-2 px-2 rounded-lg text-sm font-medium
                 transition-colors duration-200 z-10
                 ${isActive
-                  ? "text-gray-900"
-                  : "text-gray-500 hover:text-gray-700"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
                 }
               `}
             >
@@ -74,7 +74,7 @@ export function BetFilter({ value, onChange, counts }: BetFilterProps) {
                   text-xs font-semibold rounded-full px-1.5
                   ${isActive
                     ? "bg-theme-primary-100 text-theme-primary"
-                    : "bg-gray-200/80 text-gray-500"
+                    : "bg-muted text-muted-foreground"
                   }
                 `}
               >
@@ -122,11 +122,11 @@ export function EmptyFilterState({ filter }: EmptyFilterStateProps) {
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center justify-center py-12 px-4"
     >
-      <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center mb-4">
-        <Icon className="w-6 h-6 text-gray-400" />
+      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center mb-4">
+        <Icon className="w-6 h-6 text-muted-foreground" />
       </div>
-      <p className="text-gray-900 font-medium text-center">{message.title}</p>
-      <p className="text-gray-500 text-sm text-center mt-1">{message.subtitle}</p>
+      <p className="text-foreground font-medium text-center">{message.title}</p>
+      <p className="text-muted-foreground text-sm text-center mt-1">{message.subtitle}</p>
     </motion.div>
   );
 }

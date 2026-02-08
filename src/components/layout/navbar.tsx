@@ -21,7 +21,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-theme-primary-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center px-4">
         <div className="mr-4 hidden md:flex">
           <Link href="/groups" className="mr-6 flex items-center space-x-2">
@@ -41,7 +41,7 @@ export function Navbar() {
                   "flex items-center space-x-2 transition-colors hover:text-theme-primary",
                   pathname.startsWith(item.href)
                     ? "text-theme-primary font-semibold"
-                    : "text-gray-600"
+                    : "text-muted-foreground"
                 )}
               >
                 <item.icon className="h-4 w-4" />
@@ -59,7 +59,7 @@ export function Navbar() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[280px] bg-white border-r border-theme-primary-100">
+          <SheetContent side="left" className="w-[280px] bg-card border-r border-border">
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
             <Link
               href="/groups"
@@ -83,7 +83,7 @@ export function Navbar() {
                     "flex items-center space-x-3 px-4 py-3 rounded-xl text-base font-medium transition-all",
                     pathname.startsWith(item.href)
                       ? "bg-theme-primary-100 text-theme-primary"
-                      : "text-gray-600 hover:bg-theme-primary-50 hover:text-theme-primary"
+                      : "text-muted-foreground hover:bg-theme-primary-50 hover:text-theme-primary"
                   )}
                 >
                   <item.icon className="h-5 w-5" />

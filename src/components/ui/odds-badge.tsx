@@ -36,7 +36,7 @@ export function OddsBadge({
         "rounded-xl font-semibold transition-all duration-200",
         sizes[size],
         isPositive
-          ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white"
+          ? "bg-emerald-500 text-white"
           : "bg-theme-gradient text-white",
         interactive && "cursor-pointer hover:shadow-lg",
         selected && "ring-2 ring-offset-2 ring-yellow-400"
@@ -74,11 +74,11 @@ export function OddsCard({
       className={cn(
         "relative overflow-hidden rounded-2xl p-4 transition-all duration-300",
         disabled
-          ? "bg-gray-100 cursor-not-allowed opacity-60"
-          : "bg-white border-2 cursor-pointer hover:shadow-xl hover:shadow-theme",
+          ? "bg-muted cursor-not-allowed opacity-60"
+          : "bg-card border-2 cursor-pointer hover:shadow-xl hover:shadow-theme",
         selected
           ? "border-theme-primary-500 bg-theme-primary-50"
-          : "border-gray-100 hover:border-theme-primary-300"
+          : "border-border hover:border-theme-primary-300"
       )}
     >
       {/* Background gradient effect */}
@@ -94,9 +94,9 @@ export function OddsCard({
 
       <div className="relative flex items-center justify-between">
         <div>
-          <h4 className="font-semibold text-gray-900">{name}</h4>
+          <h4 className="font-semibold text-foreground">{name}</h4>
           {wagerCount > 0 && (
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               {wagerCount} wager{wagerCount !== 1 ? "s" : ""}
             </p>
           )}

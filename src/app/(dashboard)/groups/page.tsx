@@ -124,7 +124,7 @@ export default function GroupsPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-theme-primary" />
-          <p className="text-gray-500">Loading your groups...</p>
+          <p className="text-muted-foreground">Loading your groups...</p>
         </div>
       </div>
     );
@@ -142,7 +142,7 @@ export default function GroupsPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-theme-gradient">
             My Groups
           </h1>
-          <p className="text-gray-500 text-sm sm:text-base mt-1">
+          <p className="text-muted-foreground text-sm sm:text-base mt-1">
             Bet with your friends in private groups
           </p>
         </div>
@@ -249,14 +249,14 @@ export default function GroupsPage() {
                     value={defaultCredits}
                     onChange={(e) => setDefaultCredits(e.target.value)}
                   />
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     Credits each member starts with when they join
                   </p>
                 </div>
                 <div className="flex items-center justify-between p-4 bg-theme-primary-50 rounded-xl">
                   <div className="space-y-0.5">
                     <Label className="text-sm font-medium">Require Approval</Label>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       You&apos;ll approve who joins
                     </p>
                   </div>
@@ -304,10 +304,10 @@ export default function GroupsPage() {
             <div className="mx-auto w-16 h-16 bg-theme-gradient-br rounded-2xl flex items-center justify-center mb-6">
               <Users className="h-8 w-8 text-white" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <h3 className="text-xl font-semibold text-foreground mb-2">
               No groups yet
             </h3>
-            <p className="text-gray-500 mb-6 max-w-sm mx-auto">
+            <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
               Create your first group or join one with an invite code to start betting with friends
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -344,8 +344,8 @@ export default function GroupsPage() {
                       p-4 sm:p-5 rounded-2xl border transition-all
                       ${
                         group.status === "approved"
-                          ? "bg-white border-gray-100 hover:border-theme-primary-200 hover:shadow-lg hover:shadow-theme cursor-pointer"
-                          : "bg-gray-50 border-gray-100 cursor-default"
+                          ? "bg-card border-border hover:border-theme-primary-200 hover:shadow-lg hover:shadow-theme cursor-pointer"
+                          : "bg-muted border-border cursor-default"
                       }
                     `}
                   >
@@ -356,7 +356,7 @@ export default function GroupsPage() {
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <h3 className="font-semibold text-gray-900 truncate">
+                            <h3 className="font-semibold text-foreground truncate">
                               {group.name}
                             </h3>
                             {group.role === "admin" && (
@@ -372,17 +372,17 @@ export default function GroupsPage() {
                             )}
                           </div>
                           {group.description && (
-                            <p className="text-sm text-gray-500 truncate mt-0.5">
+                            <p className="text-sm text-muted-foreground truncate mt-0.5">
                               {group.description}
                             </p>
                           )}
-                          <p className="text-xs text-gray-400 mt-1">
+                          <p className="text-xs text-muted-foreground mt-1">
                             Created by @{group.createdBy.username}
                           </p>
                         </div>
                       </div>
                       {group.status === "approved" && (
-                        <ChevronRight className="h-5 w-5 text-gray-300 shrink-0" />
+                        <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
                       )}
                     </div>
                   </div>

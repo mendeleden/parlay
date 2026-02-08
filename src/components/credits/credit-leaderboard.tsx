@@ -42,12 +42,12 @@ function getRankIcon(rank: number) {
     case 1:
       return <Trophy className="h-5 w-5 text-yellow-500" />;
     case 2:
-      return <Medal className="h-5 w-5 text-gray-400" />;
+      return <Medal className="h-5 w-5 text-muted-foreground" />;
     case 3:
       return <Award className="h-5 w-5 text-amber-600" />;
     default:
       return (
-        <span className="w-5 h-5 flex items-center justify-center text-sm font-medium text-gray-400">
+        <span className="w-5 h-5 flex items-center justify-center text-sm font-medium text-muted-foreground">
           {rank}
         </span>
       );
@@ -74,12 +74,12 @@ export function CreditLeaderboard({
 
   if (credits.length === 0) {
     return (
-      <div className="bg-gray-50 rounded-2xl p-8 text-center">
+      <div className="bg-muted rounded-2xl p-8 text-center">
         <div className="w-16 h-16 bg-theme-gradient-br rounded-2xl flex items-center justify-center mx-auto mb-4">
           <Coins className="h-8 w-8 text-white" />
         </div>
-        <p className="text-gray-600 font-medium">No members yet</p>
-        <p className="text-gray-400 text-sm mt-1">
+        <p className="text-muted-foreground font-medium">No members yet</p>
+        <p className="text-muted-foreground text-sm mt-1">
           Invite members to start tracking credits
         </p>
       </div>
@@ -106,14 +106,14 @@ export function CreditLeaderboard({
             key={credit.userId}
             variants={item}
             className={`
-              bg-white rounded-xl border overflow-hidden transition-all
-              ${isCurrentUser ? "border-theme-primary-200 bg-theme-primary-50/30" : "border-gray-100"}
+              bg-card rounded-xl border overflow-hidden transition-all
+              ${isCurrentUser ? "border-theme-primary-200 bg-theme-primary-50/30" : "border-border"}
               ${rank <= 3 ? "shadow-sm" : ""}
             `}
           >
             {/* Main Row - Compact */}
             <div
-              className="p-3 flex items-center justify-between cursor-pointer hover:bg-gray-50/50"
+              className="p-3 flex items-center justify-between cursor-pointer hover:bg-muted/50"
               onClick={() => setExpandedUserId(isExpanded ? null : credit.userId)}
             >
               <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -128,7 +128,7 @@ export function CreditLeaderboard({
                 </Avatar>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
-                    <p className="font-medium text-gray-900 text-sm truncate">
+                    <p className="font-medium text-foreground text-sm truncate">
                       @{credit.username}
                     </p>
                     {isCurrentUser && (
@@ -147,17 +147,17 @@ export function CreditLeaderboard({
                       rank === 1
                         ? "text-yellow-600"
                         : rank === 2
-                          ? "text-gray-600"
+                          ? "text-muted-foreground"
                           : rank === 3
                             ? "text-amber-600"
-                            : "text-gray-900"
+                            : "text-foreground"
                     }`}
                   >
                     {formatCurrency(total)}
                   </p>
                 </div>
                 <ChevronDown
-                  className={`h-4 w-4 text-gray-400 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                  className={`h-4 w-4 text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`}
                 />
               </div>
             </div>
@@ -172,7 +172,7 @@ export function CreditLeaderboard({
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="px-3 pb-3 pt-1 border-t border-gray-100">
+                  <div className="px-3 pb-3 pt-1 border-t border-border">
                     {/* Credit Breakdown */}
                     <div className="grid grid-cols-3 gap-2 mb-3">
                       <div className="bg-green-50 rounded-lg p-2 text-center">
@@ -193,12 +193,12 @@ export function CreditLeaderboard({
                           {formatCurrency(allocated)}
                         </p>
                       </div>
-                      <div className="bg-gray-100 rounded-lg p-2 text-center">
+                      <div className="bg-muted rounded-lg p-2 text-center">
                         <div className="flex items-center justify-center gap-1 mb-0.5">
-                          <Wallet className="h-3 w-3 text-gray-600" />
-                          <span className="text-[10px] uppercase tracking-wide text-gray-600 font-medium">Total</span>
+                          <Wallet className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-[10px] uppercase tracking-wide text-muted-foreground font-medium">Total</span>
                         </div>
-                        <p className="text-sm font-bold text-gray-800">
+                        <p className="text-sm font-bold text-foreground">
                           {formatCurrency(total)}
                         </p>
                       </div>

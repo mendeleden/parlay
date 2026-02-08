@@ -197,7 +197,7 @@ export function ParlayBuilderDialog({
               {picks.map((pick) => (
                 <span
                   key={pick.optionId}
-                  className="text-xs bg-white px-2 py-1 rounded-lg flex items-center gap-1 border border-theme-primary-100"
+                  className="text-xs bg-card px-2 py-1 rounded-lg flex items-center gap-1 border border-theme-primary-100"
                 >
                   <span className="max-w-[100px] truncate">{pick.optionName}</span>
                   <span className="text-theme-primary font-medium">
@@ -205,7 +205,7 @@ export function ParlayBuilderDialog({
                   </span>
                   <button
                     onClick={() => removePick(pick.betId)}
-                    className="text-gray-400 hover:text-red-500 ml-1"
+                    className="text-muted-foreground hover:text-red-500 ml-1"
                   >
                     <X className="h-3 w-3" />
                   </button>
@@ -213,7 +213,7 @@ export function ParlayBuilderDialog({
               ))}
             </div>
             {picks.length === 1 && (
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-muted-foreground mt-2">
                 Select 1 more bet to create a parlay
               </p>
             )}
@@ -226,9 +226,9 @@ export function ParlayBuilderDialog({
             <div className="space-y-2 pr-3">
               {openBets.length === 0 ? (
                 <div className="text-center py-8">
-                  <AlertCircle className="h-8 w-8 text-gray-300 mx-auto mb-2" />
-                  <p className="text-gray-500">No open bets available</p>
-                  <p className="text-gray-400 text-sm">
+                  <AlertCircle className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-muted-foreground">No open bets available</p>
+                  <p className="text-muted-foreground text-sm">
                     Create a bet first to build parlays
                   </p>
                 </div>
@@ -243,18 +243,18 @@ export function ParlayBuilderDialog({
                       className={`border rounded-xl overflow-hidden transition-all ${
                         pick
                           ? "border-theme-primary-300 bg-theme-primary-50/50"
-                          : "border-gray-200 bg-white"
+                          : "border-border bg-card"
                       }`}
                     >
                       {/* Bet header */}
                       <button
                         type="button"
                         onClick={() => toggleBetExpanded(bet.id)}
-                        className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                        className="w-full px-4 py-3 flex items-center justify-between hover:bg-muted transition-colors"
                       >
                         <div className="text-left flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <h4 className="font-medium text-gray-900 truncate">
+                            <h4 className="font-medium text-foreground truncate">
                               {bet.title}
                             </h4>
                             {pick && (
@@ -265,15 +265,15 @@ export function ParlayBuilderDialog({
                             )}
                           </div>
                           {bet.description && !isExpanded && (
-                            <p className="text-xs text-gray-500 truncate mt-0.5">
+                            <p className="text-xs text-muted-foreground truncate mt-0.5">
                               {bet.description}
                             </p>
                           )}
                         </div>
                         {isExpanded ? (
-                          <ChevronUp className="h-4 w-4 text-gray-400 shrink-0" />
+                          <ChevronUp className="h-4 w-4 text-muted-foreground shrink-0" />
                         ) : (
-                          <ChevronDown className="h-4 w-4 text-gray-400 shrink-0" />
+                          <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
                         )}
                       </button>
 
@@ -289,7 +289,7 @@ export function ParlayBuilderDialog({
                           >
                             <div className="px-4 pb-3 pt-1 space-y-2">
                               {bet.description && (
-                                <p className="text-xs text-gray-500 mb-2">
+                                <p className="text-xs text-muted-foreground mb-2">
                                   {bet.description}
                                 </p>
                               )}
@@ -304,7 +304,7 @@ export function ParlayBuilderDialog({
                                       className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg border transition-all ${
                                         isSelected
                                           ? "border-theme-primary bg-theme-primary-100 text-theme-primary"
-                                          : "border-gray-200 bg-gray-50 hover:border-theme-primary-200 hover:bg-theme-primary-50"
+                                          : "border-border bg-muted hover:border-theme-primary-200 hover:bg-theme-primary-50"
                                       }`}
                                     >
                                       <span className="font-medium flex items-center gap-2">
@@ -353,17 +353,17 @@ export function ParlayBuilderDialog({
                   onChange={(e) => setAmount(e.target.value)}
                 />
                 {availableCredits !== undefined && (
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     Available: ${availableCredits.toFixed(2)}
                   </p>
                 )}
               </div>
               <div className="text-right pb-1">
-                <p className="text-xs text-gray-500 mb-1">Potential Payout</p>
+                <p className="text-xs text-muted-foreground mb-1">Potential Payout</p>
                 <p className="text-xl font-bold text-theme-primary">
                   ${parlayInfo.payout.toFixed(2)}
                 </p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-muted-foreground">
                   ${(parlayInfo.payout - wagerAmount).toFixed(2)} profit
                 </p>
               </div>

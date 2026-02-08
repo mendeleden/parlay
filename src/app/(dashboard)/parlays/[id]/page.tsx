@@ -97,7 +97,7 @@ export default function ParlayDetailPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-theme-primary" />
-          <p className="text-gray-500">Loading parlay...</p>
+          <p className="text-muted-foreground">Loading parlay...</p>
         </div>
       </div>
     );
@@ -106,8 +106,8 @@ export default function ParlayDetailPage() {
   if (!parlay) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <Layers className="h-12 w-12 text-gray-300 mb-4" />
-        <p className="text-gray-500 mb-4">Parlay not found</p>
+        <Layers className="h-12 w-12 text-muted-foreground mb-4" />
+        <p className="text-muted-foreground mb-4">Parlay not found</p>
         <Button onClick={() => router.back()} variant="outline">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Go Back
@@ -163,10 +163,10 @@ export default function ParlayDetailPage() {
               {statusConfig.label}
             </Badge>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
             Parlay Details
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-muted-foreground mt-1">
             Placed by @{parlay.user?.username}
           </p>
         </div>
@@ -179,15 +179,15 @@ export default function ParlayDetailPage() {
         transition={{ delay: 0.1 }}
         className="grid grid-cols-2 sm:grid-cols-4 gap-3"
       >
-        <div className="bg-white rounded-2xl border border-gray-100 p-4">
-          <div className="flex items-center gap-2 text-gray-500 mb-1">
+        <div className="bg-card rounded-2xl border border-border p-4">
+          <div className="flex items-center gap-2 text-muted-foreground mb-1">
             <Layers className="h-4 w-4" />
             <span className="text-xs font-medium">Legs</span>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{parlay.legs?.length || 0}</p>
+          <p className="text-2xl font-bold text-foreground">{parlay.legs?.length || 0}</p>
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 p-4">
-          <div className="flex items-center gap-2 text-gray-500 mb-1">
+        <div className="bg-card rounded-2xl border border-border p-4">
+          <div className="flex items-center gap-2 text-muted-foreground mb-1">
             <TrendingUp className="h-4 w-4" />
             <span className="text-xs font-medium">Combined Odds</span>
           </div>
@@ -195,17 +195,17 @@ export default function ParlayDetailPage() {
             {formatAmericanOdds(americanOdds)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 p-4">
-          <div className="flex items-center gap-2 text-gray-500 mb-1">
+        <div className="bg-card rounded-2xl border border-border p-4">
+          <div className="flex items-center gap-2 text-muted-foreground mb-1">
             <DollarSign className="h-4 w-4" />
             <span className="text-xs font-medium">Stake</span>
           </div>
-          <p className="text-2xl font-bold text-gray-900">
+          <p className="text-2xl font-bold text-foreground">
             ${parseFloat(parlay.amount).toFixed(2)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 p-4">
-          <div className="flex items-center gap-2 text-gray-500 mb-1">
+        <div className="bg-card rounded-2xl border border-border p-4">
+          <div className="flex items-center gap-2 text-muted-foreground mb-1">
             <Trophy className="h-4 w-4" />
             <span className="text-xs font-medium">To Win</span>
           </div>
@@ -247,11 +247,11 @@ export default function ParlayDetailPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="bg-white rounded-2xl border border-gray-100 overflow-hidden"
+        className="bg-card rounded-2xl border border-border overflow-hidden"
       >
-        <div className="p-4 sm:p-6 border-b border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-900">Parlay Legs</h2>
-          <p className="text-sm text-gray-500">
+        <div className="p-4 sm:p-6 border-b border-border">
+          <h2 className="text-lg font-semibold text-foreground">Parlay Legs</h2>
+          <p className="text-sm text-muted-foreground">
             All {parlay.legs?.length || 0} picks in this parlay
           </p>
         </div>
@@ -265,7 +265,7 @@ export default function ParlayDetailPage() {
               <Link
                 key={leg.id}
                 href={`/bets/${leg.betId}`}
-                className="block hover:bg-gray-50 transition-colors"
+                className="block hover:bg-muted transition-colors"
               >
                 <div className="p-4 sm:p-6">
                   <div className="flex items-center gap-4">
@@ -285,7 +285,7 @@ export default function ParlayDetailPage() {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={`font-medium text-gray-900 truncate ${
+                      <p className={`font-medium text-foreground truncate ${
                         legResult === "lost" ? "line-through opacity-60" : ""
                       }`}>
                         {leg.bet?.title || "Bet"}
@@ -309,7 +309,7 @@ export default function ParlayDetailPage() {
                       <Badge className={`text-xs ${legStatusConfig.bg} ${legStatusConfig.text}`}>
                         {legStatusConfig.label}
                       </Badge>
-                      <ChevronRight className="h-4 w-4 text-gray-400" />
+                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
                     </div>
                   </div>
                 </div>
@@ -324,7 +324,7 @@ export default function ParlayDetailPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="text-sm text-gray-400 flex flex-wrap gap-4"
+        className="text-sm text-muted-foreground flex flex-wrap gap-4"
       >
         <span>Placed by @{parlay.user?.username}</span>
         <span>Created {new Date(parlay.createdAt).toLocaleDateString()}</span>

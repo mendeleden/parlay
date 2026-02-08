@@ -154,9 +154,9 @@ export default function BetDetailPage() {
       case "settled":
         return { icon: CheckCircle, color: "text-blue-600", bg: "bg-blue-100", label: "Settled" };
       case "cancelled":
-        return { icon: XCircle, color: "text-gray-600", bg: "bg-gray-100", label: "Cancelled" };
+        return { icon: XCircle, color: "text-gray-600", bg: "bg-muted", label: "Cancelled" };
       default:
-        return { icon: Clock, color: "text-gray-600", bg: "bg-gray-100", label: status };
+        return { icon: Clock, color: "text-gray-600", bg: "bg-muted", label: status };
     }
   };
 
@@ -180,8 +180,8 @@ export default function BetDetailPage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-violet-500" />
-          <p className="text-gray-500">Loading bet...</p>
+          <Loader2 className="h-8 w-8 animate-spin text-theme-primary" />
+          <p className="text-muted-foreground">Loading bet...</p>
         </div>
       </div>
     );
@@ -190,10 +190,10 @@ export default function BetDetailPage() {
   if (!bet) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <p className="text-gray-500 mb-4">Bet not found</p>
+        <p className="text-muted-foreground mb-4">Bet not found</p>
         <Button
           onClick={() => router.push("/bets")}
-          className="bg-gradient-to-r from-violet-500 to-fuchsia-500"
+          className="bg-theme-gradient"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Bets
@@ -232,22 +232,22 @@ export default function BetDetailPage() {
           variant="ghost"
           size="icon"
           onClick={() => router.back()}
-          className="shrink-0 text-violet-600 hover:bg-violet-50"
+          className="shrink-0 text-theme-primary hover:bg-theme-primary-50"
         >
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="flex-1 min-w-0">
           <Link
             href={`/groups/${bet.groupId}`}
-            className="text-sm text-violet-600 hover:underline mb-1 inline-block"
+            className="text-sm text-theme-primary hover:underline mb-1 inline-block"
           >
             {bet.group?.name}
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
             {bet.title}
           </h1>
           {bet.description && (
-            <p className="text-gray-500 mt-1">{bet.description}</p>
+            <p className="text-muted-foreground mt-1">{bet.description}</p>
           )}
         </div>
       </motion.div>
@@ -275,35 +275,35 @@ export default function BetDetailPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="bg-gradient-to-br from-violet-50 to-fuchsia-50 rounded-2xl p-5 border border-violet-100"
+          className="bg-theme-gradient-light rounded-2xl p-5 border border-theme-primary-100"
         >
-          <h3 className="text-sm font-medium text-gray-500 mb-3">Your Wager</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-3">Your Wager</h3>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <p className="font-semibold text-gray-900 text-lg">
+              <p className="font-semibold text-foreground text-lg">
                 {bet.options?.find((o) => o.id === userWager.optionId)?.name}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted-foreground">
                 {formatAmericanOdds(userWager.oddsAtWager)} odds
               </p>
             </div>
             <div className="flex items-center gap-6">
               <div className="text-center">
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-foreground">
                   {formatCurrency(parseFloat(userWager.amount))}
                 </p>
-                <p className="text-xs text-gray-500">Wagered</p>
+                <p className="text-xs text-muted-foreground">Wagered</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-green-600">
                   {formatCurrency(parseFloat(userWager.potentialPayout))}
                 </p>
-                <p className="text-xs text-gray-500">To Win</p>
+                <p className="text-xs text-muted-foreground">To Win</p>
               </div>
             </div>
           </div>
           {isOpen && (
-            <div className="mt-4 pt-4 border-t border-violet-200">
+            <div className="mt-4 pt-4 border-t border-theme-primary-200">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="outline" size="sm" className="text-red-600 border-red-200 hover:bg-red-50">
@@ -339,7 +339,7 @@ export default function BetDetailPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Betting Options</h3>
+        <h3 className="text-lg font-semibold text-foreground mb-4">Betting Options</h3>
         <div className="space-y-3">
           {bet.options?.map((option) => {
             const optionWagers = bet.wagers?.filter((w) => w.optionId === option.id) || [];
@@ -349,8 +349,8 @@ export default function BetDetailPage() {
                 key={option.id}
                 className={`
                   rounded-2xl border p-4 transition-all
-                  ${isWinner ? "bg-green-50 border-green-200" : "bg-white border-gray-100"}
-                  ${isOpen && !userWager ? "hover:border-violet-300 hover:shadow-md cursor-pointer" : ""}
+                  ${isWinner ? "bg-green-50 border-green-200" : "bg-card border-border"}
+                  ${isOpen && !userWager ? "hover:border-theme-primary-300 hover:shadow-md cursor-pointer" : ""}
                 `}
                 onClick={() => {
                   if (isOpen && !userWager) {
@@ -362,7 +362,7 @@ export default function BetDetailPage() {
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="font-semibold text-gray-900">{option.name}</h4>
+                      <h4 className="font-semibold text-foreground">{option.name}</h4>
                       {isWinner && (
                         <Badge className="bg-green-500">
                           <Trophy className="h-3 w-3 mr-1" />
@@ -370,7 +370,7 @@ export default function BetDetailPage() {
                         </Badge>
                       )}
                     </div>
-                    <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
+                    <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <Users className="h-4 w-4" />
                         {optionWagers.length} wager{optionWagers.length !== 1 ? "s" : ""}
@@ -378,34 +378,34 @@ export default function BetDetailPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`text-2xl font-bold ${option.americanOdds > 0 ? "text-green-600" : "text-violet-600"}`}>
+                    <p className={`text-2xl font-bold ${option.americanOdds > 0 ? "text-green-600" : "text-theme-primary"}`}>
                       {formatAmericanOdds(option.americanOdds)}
                     </p>
                     {isOpen && !userWager && (
-                      <p className="text-xs text-gray-400 mt-1">Tap to bet</p>
+                      <p className="text-xs text-muted-foreground mt-1">Tap to bet</p>
                     )}
                   </div>
                 </div>
 
                 {/* Wagers on this option */}
                 {optionWagers.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-gray-100">
+                  <div className="mt-4 pt-4 border-t border-border">
                     <div className="flex flex-wrap gap-2">
                       {optionWagers.map((wager) => (
                         <div
                           key={wager.id}
-                          className="flex items-center gap-2 bg-gray-50 rounded-full px-3 py-1.5"
+                          className="flex items-center gap-2 bg-muted rounded-full px-3 py-1.5"
                         >
                           <Avatar className="h-6 w-6">
                             <AvatarImage src={wager.user?.avatar || undefined} />
-                            <AvatarFallback className="text-xs bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                            <AvatarFallback className="text-xs bg-theme-gradient-br text-white">
                               {getInitials(wager.user?.username)}
                             </AvatarFallback>
                           </Avatar>
-                          <span className="text-sm font-medium text-gray-700">
+                          <span className="text-sm font-medium text-foreground">
                             @{wager.user?.username}
                           </span>
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-muted-foreground">
                             {formatCurrency(parseFloat(wager.amount))}
                           </span>
                         </div>
@@ -430,12 +430,12 @@ export default function BetDetailPage() {
           </DialogHeader>
           <div className="space-y-4 py-4">
             {/* Available Credits Display */}
-            <div className="bg-violet-50 rounded-xl p-4 flex items-center justify-between">
+            <div className="bg-theme-primary-50 rounded-xl p-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Coins className="h-5 w-5 text-violet-600" />
-                <span className="text-sm font-medium text-gray-700">Available Credits</span>
+                <Coins className="h-5 w-5 text-theme-primary" />
+                <span className="text-sm font-medium text-foreground">Available Credits</span>
               </div>
-              <span className="text-lg font-bold text-violet-600">
+              <span className="text-lg font-bold text-theme-primary">
                 {formatCurrency(availableCredits)}
               </span>
             </div>
@@ -443,7 +443,7 @@ export default function BetDetailPage() {
             <div className="space-y-2">
               <Label htmlFor="amount">Wager Amount</Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="amount"
                   type="number"
@@ -463,11 +463,11 @@ export default function BetDetailPage() {
             </div>
             {potentialPayout > 0 && !insufficientCredits && (
               <div className="bg-green-50 rounded-xl p-4">
-                <p className="text-sm text-gray-500">If you win, you get</p>
+                <p className="text-sm text-muted-foreground">If you win, you get</p>
                 <p className="text-2xl font-bold text-green-600">
                   {formatCurrency(potentialPayout)}
                 </p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   ({formatCurrency(potentialPayout - parseFloat(wagerAmount || "0"))} profit)
                 </p>
               </div>
@@ -488,7 +488,7 @@ export default function BetDetailPage() {
             <Button
               onClick={handlePlaceWager}
               disabled={placeWagerMutation.isPending || !wagerAmount || insufficientCredits}
-              className="w-full sm:w-auto bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600"
+              className="w-full sm:w-auto bg-theme-gradient hover:opacity-90"
             >
               {placeWagerMutation.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -506,9 +506,9 @@ export default function BetDetailPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="bg-gray-50 rounded-2xl p-4"
+          className="bg-muted rounded-2xl p-4"
         >
-          <h3 className="text-sm font-medium text-gray-500 mb-3">Bet Creator Actions</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-3">Bet Creator Actions</h3>
           <div className="flex flex-wrap gap-2">
             {isOpen && (
               <Button
@@ -592,13 +592,13 @@ export default function BetDetailPage() {
                   rounded-xl border p-4 cursor-pointer transition-all
                   ${winningOptionId === option.id
                     ? "border-green-500 bg-green-50"
-                    : "border-gray-200 hover:border-gray-300"
+                    : "border-border hover:border-gray-300"
                   }
                 `}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-medium">{option.name}</span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-muted-foreground">
                     {formatAmericanOdds(option.americanOdds)}
                   </span>
                 </div>
@@ -640,7 +640,7 @@ export default function BetDetailPage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="text-sm text-gray-400 flex flex-wrap gap-4"
+        className="text-sm text-muted-foreground flex flex-wrap gap-4"
       >
         <span>Created by @{bet.createdBy?.username}</span>
         <span>Created {new Date(bet.createdAt).toLocaleDateString()}</span>

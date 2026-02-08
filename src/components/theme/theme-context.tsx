@@ -2,55 +2,58 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-export type ThemeName = "indigo" | "emerald" | "rose";
+export type ColorMode = "light" | "dark";
 
 interface ThemeContextType {
-  theme: ThemeName;
-  setTheme: (theme: ThemeName) => void;
+  mode: ColorMode;
+  setMode: (mode: ColorMode) => void;
+  toggleMode: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const THEME_STORAGE_KEY = "parlay-theme";
+const MODE_STORAGE_KEY = "parlay-color-mode";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeName>("indigo");
+  const [mode, setModeState] = useState<ColorMode>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY) as ThemeName | null;
-    if (storedTheme && ["indigo", "emerald", "rose"].includes(storedTheme)) {
-      setThemeState(storedTheme);
+    const storedMode = localStorage.getItem(MODE_STORAGE_KEY) as ColorMode | null;
+    if (storedMode && ["light", "dark"].includes(storedMode)) {
+      setModeState(storedMode);
+    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setModeState("dark");
     }
   }, []);
 
   useEffect(() => {
     if (mounted) {
-      // Remove previous theme classes
-      document.documentElement.classList.remove("theme-indigo", "theme-emerald", "theme-rose");
-      // Add current theme class
-      document.documentElement.classList.add(`theme-${theme}`);
-      // Store in localStorage
-      localStorage.setItem(THEME_STORAGE_KEY, theme);
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(mode);
+      localStorage.setItem(MODE_STORAGE_KEY, mode);
     }
-  }, [theme, mounted]);
+  }, [mode, mounted]);
 
-  const setTheme = (newTheme: ThemeName) => {
-    setThemeState(newTheme);
+  const setMode = (newMode: ColorMode) => {
+    setModeState(newMode);
   };
 
-  // Prevent flash of incorrect theme
+  const toggleMode = () => {
+    setModeState((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
   if (!mounted) {
     return (
-      <ThemeContext.Provider value={{ theme: "indigo", setTheme }}>
+      <ThemeContext.Provider value={{ mode: "light", setMode, toggleMode }}>
         {children}
       </ThemeContext.Provider>
     );
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={{ mode, setMode, toggleMode }}>
       {children}
     </ThemeContext.Provider>
   );

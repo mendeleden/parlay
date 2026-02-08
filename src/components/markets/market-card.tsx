@@ -40,13 +40,13 @@ export function MarketCard({
       whileTap={!disabled ? { scale: 0.99 } : undefined}
       onClick={!disabled ? onSelect : undefined}
       className={cn(
-        "relative overflow-hidden rounded-2xl bg-white border-2 transition-all duration-200",
+        "relative overflow-hidden rounded-2xl bg-card border-2 transition-all duration-200",
         disabled
           ? "opacity-50 cursor-not-allowed"
           : "cursor-pointer hover:shadow-lg",
         selected
           ? "border-theme-primary-500 bg-theme-primary-50/50 ring-2 ring-theme-primary-200"
-          : "border-gray-100 hover:border-gray-200"
+          : "border-border hover:border-border"
       )}
     >
       {/* Header - with or without image */}
@@ -106,7 +106,7 @@ export function MarketCard({
               selected
                 ? "bg-theme-primary-500 border-theme-primary-500"
                 : market.imageUrl
-                ? "bg-white/80 backdrop-blur-sm border-gray-300"
+                ? "bg-white/80 backdrop-blur-sm border-border"
                 : "bg-white/30 backdrop-blur-sm border-white/50"
             )}
           >
@@ -118,7 +118,7 @@ export function MarketCard({
       {/* Content */}
       <div className="p-4">
         {/* Title */}
-        <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 mb-3">
+        <h3 className="font-semibold text-foreground text-sm line-clamp-2 mb-3">
           {market.title}
         </h3>
 
@@ -129,7 +129,7 @@ export function MarketCard({
               key={idx}
               className="flex items-center justify-between text-sm"
             >
-              <span className="text-gray-600 truncate flex-1 mr-2">
+              <span className="text-muted-foreground truncate flex-1 mr-2">
                 {option.name}
               </span>
               <span
@@ -147,7 +147,7 @@ export function MarketCard({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between text-xs text-gray-500">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           {endDate && (
             <div className="flex items-center gap-1">
               <Clock className="w-3 h-3" />
@@ -188,13 +188,13 @@ export function MarketCardCompact({
       whileHover={!disabled ? { scale: 1.005 } : undefined}
       onClick={!disabled ? onSelect : undefined}
       className={cn(
-        "relative flex items-center gap-4 p-4 rounded-xl bg-white border-2 transition-all duration-200",
+        "relative flex items-center gap-4 p-4 rounded-xl bg-card border-2 transition-all duration-200",
         disabled
           ? "opacity-50 cursor-not-allowed"
           : "cursor-pointer hover:shadow-md",
         selected
           ? "border-theme-primary-500 bg-theme-primary-50/50"
-          : "border-gray-100 hover:border-gray-200"
+          : "border-border hover:border-border"
       )}
     >
       {/* Selection checkbox */}
@@ -204,7 +204,7 @@ export function MarketCardCompact({
             "flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all",
             selected
               ? "bg-theme-primary-500 border-theme-primary-500"
-              : "border-gray-300"
+              : "border-border"
           )}
         >
           {selected && <Check className="w-3 h-3 text-white" />}
@@ -213,7 +213,7 @@ export function MarketCardCompact({
 
       {/* Image */}
       {market.imageUrl && (
-        <div className="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
+        <div className="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden bg-muted">
           <img
             src={market.imageUrl}
             alt=""
@@ -227,7 +227,7 @@ export function MarketCardCompact({
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <h3 className="font-medium text-gray-900 text-sm truncate">
+        <h3 className="font-medium text-foreground text-sm truncate">
           {market.title}
         </h3>
         <div className="flex items-center gap-2 mt-1">
@@ -249,8 +249,8 @@ export function MarketCardCompact({
 
       {/* Volume */}
       <div className="flex-shrink-0 text-right">
-        <div className="text-xs font-medium text-gray-900">{market.volume}</div>
-        <div className="text-xs text-gray-500">volume</div>
+        <div className="text-xs font-medium text-foreground">{market.volume}</div>
+        <div className="text-xs text-muted-foreground">volume</div>
       </div>
     </motion.div>
   );

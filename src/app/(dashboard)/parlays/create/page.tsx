@@ -18,10 +18,10 @@ export default function CreateParlayPage() {
         <div className="mx-auto w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6">
           <Construction className="h-8 w-8 text-white" />
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold text-foreground mb-2">
           Create Parlays from Your Wagers
         </h1>
-        <p className="text-gray-500 mb-6">
+        <p className="text-muted-foreground mb-6">
           To create a parlay, first place wagers on different bets within a group.
           Then you can combine those wagers into a parlay for bigger potential payouts!
         </p>

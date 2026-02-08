@@ -210,7 +210,7 @@ export function ImportBetsModal({
         </DialogHeader>
 
         {/* Source Tabs */}
-        <div className="px-6 pt-4 pb-3 border-b bg-gray-50/50 shrink-0">
+        <div className="px-6 pt-4 pb-3 border-b bg-muted/50 shrink-0">
           <div className="flex items-center gap-2">
             <button
               onClick={() => {
@@ -222,7 +222,7 @@ export function ImportBetsModal({
                 "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
                 source === "polymarket" && !showUrlInput
                   ? "bg-violet-600 text-white shadow-sm"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-violet-300 hover:text-violet-600"
+                  : "bg-card border border-border text-muted-foreground hover:border-violet-300 hover:text-violet-600"
               )}
             >
               <Sparkles className="w-4 h-4" />
@@ -238,7 +238,7 @@ export function ImportBetsModal({
                 "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
                 source === "kalshi" && !showUrlInput
                   ? "bg-emerald-600 text-white shadow-sm"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-emerald-300 hover:text-emerald-600"
+                  : "bg-card border border-border text-muted-foreground hover:border-emerald-300 hover:text-emerald-600"
               )}
             >
               <TrendingUp className="w-4 h-4" />
@@ -257,7 +257,7 @@ export function ImportBetsModal({
                 "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
                 showUrlInput
                   ? "bg-amber-500 text-white shadow-sm"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-amber-300 hover:text-amber-600"
+                  : "bg-card border border-border text-muted-foreground hover:border-amber-300 hover:text-amber-600"
               )}
             >
               <Link2 className="w-4 h-4" />
@@ -267,28 +267,28 @@ export function ImportBetsModal({
         </div>
 
         {/* Search and Filters */}
-        <div className="px-6 py-4 bg-gray-50 border-b space-y-3 shrink-0">
+        <div className="px-6 py-4 bg-muted border-b space-y-3 shrink-0">
           {showUrlInput ? (
             /* URL Input */
             <div className="space-y-2">
               <div className="relative">
-                <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="Paste Polymarket or Kalshi URL..."
                   value={urlInput}
                   onChange={(e) => setUrlInput(e.target.value)}
-                  className="pl-10 bg-white"
+                  className="pl-10 bg-card"
                 />
                 {urlInput && (
                   <button
                     onClick={() => setUrlInput("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-muted-foreground"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 )}
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 Example: https://polymarket.com/event/super-bowl-lx-coin-toss or https://kalshi.com/markets/...
               </p>
             </div>
@@ -296,12 +296,12 @@ export function ImportBetsModal({
             <>
               {/* Search */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder={`Search ${source === "polymarket" ? "Polymarket" : "Kalshi"} markets...`}
                   value={search}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pl-10 bg-white"
+                  className="pl-10 bg-card"
                 />
                 {search && (
                   <button
@@ -309,7 +309,7 @@ export function ImportBetsModal({
                       setSearch("");
                       setDebouncedSearch("");
                     }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-muted-foreground"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -324,7 +324,7 @@ export function ImportBetsModal({
                     "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all",
                     category === undefined
                       ? "bg-theme-primary-500 text-white shadow-sm"
-                      : "bg-white border border-gray-200 text-gray-600 hover:border-gray-300"
+                      : "bg-card border border-border text-muted-foreground hover:border-border"
                   )}
                 >
                   All
@@ -339,7 +339,7 @@ export function ImportBetsModal({
                         "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all",
                         category === cat.id
                           ? "bg-theme-primary-500 text-white shadow-sm"
-                          : "bg-white border border-gray-200 text-gray-600 hover:border-gray-300"
+                          : "bg-card border border-border text-muted-foreground hover:border-border"
                       )}
                     >
                       <Icon className="w-3.5 h-3.5" />
@@ -390,17 +390,17 @@ export function ImportBetsModal({
             {isMarketsLoading || isUrlLoading ? (
               <div className="flex flex-col items-center justify-center py-16">
                 <Loader2 className="w-8 h-8 animate-spin text-theme-primary mb-3" />
-                <p className="text-gray-500">
+                <p className="text-muted-foreground">
                   {showUrlInput ? "Fetching market from URL..." : "Loading markets..."}
                 </p>
               </div>
             ) : error || (showUrlInput && urlImportQuery.error) ? (
               <div className="flex flex-col items-center justify-center py-16">
                 <AlertCircle className="w-10 h-10 text-red-400 mb-3" />
-                <p className="text-gray-700 font-medium">
+                <p className="text-foreground font-medium">
                   {showUrlInput ? "Could not find market" : "Failed to load markets"}
                 </p>
-                <p className="text-gray-500 text-sm mt-1">
+                <p className="text-muted-foreground text-sm mt-1">
                   {showUrlInput
                     ? "Make sure the URL is valid and the market exists"
                     : "Please try again later"}
@@ -410,12 +410,12 @@ export function ImportBetsModal({
               <div className="flex flex-col items-center justify-center py-16">
                 {showUrlInput && !isValidUrl ? (
                   <>
-                    <Link2 className="w-10 h-10 text-gray-300 mb-3" />
-                    <p className="text-gray-700 font-medium">Paste a market URL</p>
-                    <p className="text-gray-500 text-sm mt-1 text-center max-w-md">
+                    <Link2 className="w-10 h-10 text-muted-foreground mb-3" />
+                    <p className="text-foreground font-medium">Paste a market URL</p>
+                    <p className="text-muted-foreground text-sm mt-1 text-center max-w-md">
                       Enter a Polymarket or Kalshi URL to import that specific market
                     </p>
-                    <div className="mt-4 text-xs text-gray-400 space-y-1">
+                    <div className="mt-4 text-xs text-muted-foreground space-y-1">
                       <p>Examples:</p>
                       <p className="font-mono">https://polymarket.com/event/super-bowl-lx-coin-toss</p>
                       <p className="font-mono">https://kalshi.com/markets/KXSUPERBOWL/...</p>
@@ -424,16 +424,16 @@ export function ImportBetsModal({
                 ) : urlHasNoResults ? (
                   <>
                     <AlertCircle className="w-10 h-10 text-amber-400 mb-3" />
-                    <p className="text-gray-700 font-medium">No markets found at this URL</p>
-                    <p className="text-gray-500 text-sm mt-1 text-center max-w-md">
+                    <p className="text-foreground font-medium">No markets found at this URL</p>
+                    <p className="text-muted-foreground text-sm mt-1 text-center max-w-md">
                       The URL might be invalid or the market may no longer exist
                     </p>
                   </>
                 ) : (
                   <>
-                    <Search className="w-10 h-10 text-gray-300 mb-3" />
-                    <p className="text-gray-700 font-medium">No markets found</p>
-                    <p className="text-gray-500 text-sm mt-1 text-center max-w-md">
+                    <Search className="w-10 h-10 text-muted-foreground mb-3" />
+                    <p className="text-foreground font-medium">No markets found</p>
+                    <p className="text-muted-foreground text-sm mt-1 text-center max-w-md">
                       {debouncedSearch
                         ? "Try a different search term or use 'Import by URL' for specific markets"
                         : "Try selecting a different category or use URL import for specific markets"}
@@ -458,8 +458,8 @@ export function ImportBetsModal({
         </ScrollArea>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-gray-50 border-t flex items-center justify-between shrink-0">
-          <p className="text-sm text-gray-500">
+        <div className="px-6 py-4 bg-muted border-t flex items-center justify-between shrink-0">
+          <p className="text-sm text-muted-foreground">
             Markets from{" "}
             <a
               href={source === "polymarket" ? "https://polymarket.com" : "https://kalshi.com"}
@@ -507,13 +507,13 @@ export function ImportBetsModal({
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute inset-0 bg-white flex flex-col z-10"
+              className="absolute inset-0 bg-card flex flex-col z-10"
             >
               {/* Preview Header */}
               <div className="px-6 py-4 border-b flex items-center gap-3 shrink-0">
                 <button
                   onClick={() => setPreviewMarket(null)}
-                  className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 -ml-2 hover:bg-muted rounded-lg transition-colors"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </button>
@@ -553,7 +553,7 @@ export function ImportBetsModal({
                 <div className="p-6 space-y-6">
                   {/* Image */}
                   {previewMarket.imageUrl && (
-                    <div className="relative h-48 rounded-xl overflow-hidden bg-gray-100">
+                    <div className="relative h-48 rounded-xl overflow-hidden bg-muted">
                       <img
                         src={previewMarket.imageUrl}
                         alt=""
@@ -571,11 +571,11 @@ export function ImportBetsModal({
 
                   {/* Title */}
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">
+                    <h2 className="text-xl font-bold text-foreground">
                       {previewMarket.title}
                     </h2>
                     {previewMarket.endDate && (
-                      <div className="flex items-center gap-1.5 mt-2 text-sm text-gray-500">
+                      <div className="flex items-center gap-1.5 mt-2 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
                         Ends {new Date(previewMarket.endDate).toLocaleDateString("en-US", {
                           month: "long",
@@ -589,8 +589,8 @@ export function ImportBetsModal({
                   {/* Description */}
                   {previewMarket.description && (
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Description</h4>
-                      <p className="text-gray-600 text-sm whitespace-pre-wrap leading-relaxed">
+                      <h4 className="text-sm font-semibold text-foreground mb-2">Description</h4>
+                      <p className="text-muted-foreground text-sm whitespace-pre-wrap leading-relaxed">
                         {previewMarket.description}
                       </p>
                     </div>
@@ -598,16 +598,16 @@ export function ImportBetsModal({
 
                   {/* Options */}
                   <div>
-                    <h4 className="text-sm font-semibold text-gray-700 mb-3">Betting Options</h4>
+                    <h4 className="text-sm font-semibold text-foreground mb-3">Betting Options</h4>
                     <div className="space-y-2">
                       {previewMarket.options.map((option, idx) => (
                         <div
                           key={idx}
-                          className="flex items-center justify-between p-3 bg-gray-50 rounded-xl"
+                          className="flex items-center justify-between p-3 bg-muted rounded-xl"
                         >
-                          <span className="font-medium text-gray-900">{option.name}</span>
+                          <span className="font-medium text-foreground">{option.name}</span>
                           <div className="flex items-center gap-3">
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-muted-foreground">
                               {(option.probability * 100).toFixed(0)}% chance
                             </span>
                             <span
@@ -629,12 +629,12 @@ export function ImportBetsModal({
                   {/* Tags */}
                   {previewMarket.tags.length > 0 && (
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Tags</h4>
+                      <h4 className="text-sm font-semibold text-foreground mb-2">Tags</h4>
                       <div className="flex flex-wrap gap-2">
                         {previewMarket.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full text-sm capitalize"
+                            className="bg-muted text-muted-foreground px-2.5 py-1 rounded-full text-sm capitalize"
                           >
                             {tag}
                           </span>
@@ -657,7 +657,7 @@ export function ImportBetsModal({
               </ScrollArea>
 
               {/* Preview Footer */}
-              <div className="px-6 py-4 border-t bg-gray-50 shrink-0">
+              <div className="px-6 py-4 border-t bg-muted shrink-0">
                 <Button
                   className="w-full bg-theme-gradient"
                   onClick={() => {

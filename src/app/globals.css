@@ -47,173 +47,148 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
+/* Light Mode - Warm off-white */
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.25);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.216 0.006 56.043);
-  --primary-foreground: oklch(0.985 0.001 106.423);
-  --secondary: oklch(0.97 0.001 106.424);
-  --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
-  --accent: oklch(0.97 0.001 106.424);
-  --accent-foreground: oklch(0.216 0.006 56.043);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.923 0.003 48.717);
-  --input: oklch(0.923 0.003 48.717);
-  --ring: oklch(0.709 0.01 56.259);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.001 106.423);
-  --sidebar-foreground: oklch(0.147 0.004 49.25);
-  --sidebar-primary: oklch(0.216 0.006 56.043);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.97 0.001 106.424);
-  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
-  --sidebar-border: oklch(0.923 0.003 48.717);
-  --sidebar-ring: oklch(0.709 0.01 56.259);
+  --background: #FAFAF9;
+  --foreground: #1C1917;
+  --card: #FFFFFF;
+  --card-foreground: #1C1917;
+  --popover: #FFFFFF;
+  --popover-foreground: #1C1917;
+  --primary: #7C5CFC;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5F5F4;
+  --secondary-foreground: #1C1917;
+  --muted: #F5F5F4;
+  --muted-foreground: #78716C;
+  --accent: #F5F5F4;
+  --accent-foreground: #1C1917;
+  --destructive: #EF4444;
+  --border: #F0EDEB;
+  --input: #E7E5E4;
+  --ring: #7C5CFC;
+  --chart-1: #7C5CFC;
+  --chart-2: #E84393;
+  --chart-3: #F59E0B;
+  --chart-4: #10B981;
+  --chart-5: #3B82F6;
+  --sidebar: #F5F5F4;
+  --sidebar-foreground: #1C1917;
+  --sidebar-primary: #7C5CFC;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F5F5F4;
+  --sidebar-accent-foreground: #1C1917;
+  --sidebar-border: #F0EDEB;
+  --sidebar-ring: #7C5CFC;
+
+  /* Brand palette */
+  --brand-primary: #7C5CFC;
+  --brand-secondary: #E84393;
+  --brand-accent: #F59E0B;
+  --brand-gradient-from: #7C5CFC;
+  --brand-gradient-to: #E84393;
+
+  /* Theme primary scale (warm violet) */
+  --theme-primary-50: #F5F3FF;
+  --theme-primary-100: #EDE9FE;
+  --theme-primary-200: #DDD6FE;
+  --theme-primary-300: #C4B5FD;
+  --theme-primary-400: #A78BFA;
+  --theme-primary-500: #7C5CFC;
+  --theme-primary-600: #6D4AE6;
+  --theme-primary-700: #5B37CC;
+
+  /* Theme secondary (warm pink) */
+  --theme-secondary-400: #F472B6;
+  --theme-secondary-500: #E84393;
+  --theme-secondary-600: #D63484;
+
+  /* Gradient stops */
+  --theme-gradient-from: #7C5CFC;
+  --theme-gradient-to: #E84393;
+  --theme-gradient-via: #9B5DE5;
+
+  /* Shadow colors */
+  --theme-shadow: rgba(124, 92, 252, 0.25);
+  --theme-shadow-hover: rgba(124, 92, 252, 0.35);
+
+  /* Landing page orbs */
+  --theme-orb-1: rgba(124, 92, 252, 0.3);
+  --theme-orb-1-bright: rgba(167, 139, 250, 0.4);
+  --theme-orb-2: rgba(232, 67, 147, 0.25);
+  --theme-orb-2-bright: rgba(244, 114, 182, 0.35);
 }
 
+/* Dark Mode - Deep warm navy */
 .dark {
-  --background: oklch(0.147 0.004 49.25);
-  --foreground: oklch(0.985 0.001 106.423);
-  --card: oklch(0.216 0.006 56.043);
-  --card-foreground: oklch(0.985 0.001 106.423);
-  --popover: oklch(0.216 0.006 56.043);
-  --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: oklch(0.923 0.003 48.717);
-  --primary-foreground: oklch(0.216 0.006 56.043);
-  --secondary: oklch(0.268 0.007 34.298);
-  --secondary-foreground: oklch(0.985 0.001 106.423);
-  --muted: oklch(0.268 0.007 34.298);
-  --muted-foreground: oklch(0.709 0.01 56.259);
-  --accent: oklch(0.268 0.007 34.298);
-  --accent-foreground: oklch(0.985 0.001 106.423);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.216 0.006 56.043);
-  --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.268 0.007 34.298);
-  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.553 0.013 58.071);
-}
+  --background: #13111C;
+  --foreground: #FAFAF9;
+  --card: #1E1B2E;
+  --card-foreground: #FAFAF9;
+  --popover: #1E1B2E;
+  --popover-foreground: #FAFAF9;
+  --primary: #A78BFA;
+  --primary-foreground: #13111C;
+  --secondary: #27243A;
+  --secondary-foreground: #FAFAF9;
+  --muted: #27243A;
+  --muted-foreground: #A8A29E;
+  --accent: #27243A;
+  --accent-foreground: #FAFAF9;
+  --destructive: #EF4444;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #7C5CFC;
+  --chart-1: #A78BFA;
+  --chart-2: #F472B6;
+  --chart-3: #FBBF24;
+  --chart-4: #34D399;
+  --chart-5: #60A5FA;
+  --sidebar: #1E1B2E;
+  --sidebar-foreground: #FAFAF9;
+  --sidebar-primary: #A78BFA;
+  --sidebar-primary-foreground: #13111C;
+  --sidebar-accent: #27243A;
+  --sidebar-accent-foreground: #FAFAF9;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #7C5CFC;
 
-/* Theme CSS Variables */
-/* Indigo Theme (Default) - Deep sophisticated indigo */
-:root,
-.theme-indigo {
-  /* Primary colors - Rich Indigo */
-  --theme-primary-50: #eef2ff;
-  --theme-primary-100: #e0e7ff;
-  --theme-primary-200: #c7d2fe;
-  --theme-primary-300: #a5b4fc;
-  --theme-primary-400: #818cf8;
-  --theme-primary-500: #6366f1;
-  --theme-primary-600: #4f46e5;
-  --theme-primary-700: #4338ca;
+  /* Brand palette (same in dark) */
+  --brand-primary: #7C5CFC;
+  --brand-secondary: #E84393;
+  --brand-accent: #F59E0B;
+  --brand-gradient-from: #7C5CFC;
+  --brand-gradient-to: #E84393;
 
-  /* Secondary/Accent colors - Violet */
-  --theme-secondary-400: #a78bfa;
-  --theme-secondary-500: #8b5cf6;
-  --theme-secondary-600: #7c3aed;
+  /* Theme primary scale (lighter in dark mode) */
+  --theme-primary-50: rgba(124, 92, 252, 0.1);
+  --theme-primary-100: rgba(124, 92, 252, 0.15);
+  --theme-primary-200: rgba(124, 92, 252, 0.25);
+  --theme-primary-300: #C4B5FD;
+  --theme-primary-400: #A78BFA;
+  --theme-primary-500: #7C5CFC;
+  --theme-primary-600: #A78BFA;
+  --theme-primary-700: #C4B5FD;
 
-  /* Gradient stops */
-  --theme-gradient-from: #6366f1;
-  --theme-gradient-to: #8b5cf6;
-  --theme-gradient-via: #7c3aed;
+  /* Theme secondary */
+  --theme-secondary-400: #F472B6;
+  --theme-secondary-500: #E84393;
+  --theme-secondary-600: #F472B6;
 
-  /* Shadow colors */
-  --theme-shadow: rgba(99, 102, 241, 0.25);
-  --theme-shadow-hover: rgba(99, 102, 241, 0.35);
-
-  /* Landing page specific */
-  --theme-orb-1: rgba(99, 102, 241, 0.3);
-  --theme-orb-1-bright: rgba(129, 140, 248, 0.4);
-  --theme-orb-2: rgba(139, 92, 246, 0.25);
-  --theme-orb-2-bright: rgba(167, 139, 250, 0.35);
-}
-
-/* Emerald Theme - Fresh green with teal accents */
-.theme-emerald {
-  /* Primary colors - Emerald Green */
-  --theme-primary-50: #ecfdf5;
-  --theme-primary-100: #d1fae5;
-  --theme-primary-200: #a7f3d0;
-  --theme-primary-300: #6ee7b7;
-  --theme-primary-400: #34d399;
-  --theme-primary-500: #10b981;
-  --theme-primary-600: #059669;
-  --theme-primary-700: #047857;
-
-  /* Secondary/Accent colors - Teal */
-  --theme-secondary-400: #2dd4bf;
-  --theme-secondary-500: #14b8a6;
-  --theme-secondary-600: #0d9488;
-
-  /* Gradient stops */
-  --theme-gradient-from: #10b981;
-  --theme-gradient-to: #14b8a6;
-  --theme-gradient-via: #059669;
+  /* Gradient stops (same) */
+  --theme-gradient-from: #7C5CFC;
+  --theme-gradient-to: #E84393;
+  --theme-gradient-via: #9B5DE5;
 
   /* Shadow colors */
-  --theme-shadow: rgba(16, 185, 129, 0.25);
-  --theme-shadow-hover: rgba(16, 185, 129, 0.35);
+  --theme-shadow: rgba(124, 92, 252, 0.3);
+  --theme-shadow-hover: rgba(124, 92, 252, 0.45);
 
-  /* Landing page specific */
-  --theme-orb-1: rgba(16, 185, 129, 0.3);
-  --theme-orb-1-bright: rgba(52, 211, 153, 0.4);
-  --theme-orb-2: rgba(20, 184, 166, 0.25);
-  --theme-orb-2-bright: rgba(45, 212, 191, 0.35);
-}
-
-/* Rose Theme - Warm pink-coral tones */
-.theme-rose {
-  /* Primary colors - Rose Pink */
-  --theme-primary-50: #fff1f2;
-  --theme-primary-100: #ffe4e6;
-  --theme-primary-200: #fecdd3;
-  --theme-primary-300: #fda4af;
-  --theme-primary-400: #fb7185;
-  --theme-primary-500: #f43f5e;
-  --theme-primary-600: #e11d48;
-  --theme-primary-700: #be123c;
-
-  /* Secondary/Accent colors - Pink */
-  --theme-secondary-400: #f472b6;
-  --theme-secondary-500: #ec4899;
-  --theme-secondary-600: #db2777;
-
-  /* Gradient stops */
-  --theme-gradient-from: #f43f5e;
-  --theme-gradient-to: #ec4899;
-  --theme-gradient-via: #e11d48;
-
-  /* Shadow colors */
-  --theme-shadow: rgba(244, 63, 94, 0.25);
-  --theme-shadow-hover: rgba(244, 63, 94, 0.35);
-
-  /* Landing page specific */
-  --theme-orb-1: rgba(244, 63, 94, 0.3);
-  --theme-orb-1-bright: rgba(251, 113, 133, 0.4);
-  --theme-orb-2: rgba(236, 72, 153, 0.25);
+  /* Landing page orbs */
+  --theme-orb-1: rgba(124, 92, 252, 0.3);
+  --theme-orb-1-bright: rgba(167, 139, 250, 0.4);
+  --theme-orb-2: rgba(232, 67, 147, 0.25);
   --theme-orb-2-bright: rgba(244, 114, 182, 0.35);
 }
 
@@ -339,5 +314,18 @@
 
   .hover\:bg-theme-primary-100:hover {
     background-color: var(--theme-primary-100);
+  }
+
+  /* Theme primary color reference for arbitrary usage */
+  .text-theme-primary-700 {
+    color: var(--theme-primary-700);
+  }
+
+  .bg-theme-primary-700 {
+    background-color: var(--theme-primary-700);
+  }
+
+  .text-theme-primary-600 {
+    color: var(--theme-primary-600);
   }
 }
