@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
 import { trpc } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,7 @@ import { CreditDisplay } from "@/components/credits";
 export default function BetDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { data: session } = useSession();
+  const { user } = useUser();
   const betId = params.id as string;
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -202,8 +202,8 @@ export default function BetDetailPage() {
     );
   }
 
-  const isCreator = bet.createdById === session?.user?.id;
-  const userWager = bet.wagers?.find((w) => w.userId === session?.user?.id);
+  const isCreator = bet.createdById === user?.id;
+  const userWager = bet.wagers?.find((w) => w.userId === user?.id);
   const isOpen = bet.status === "open";
   const isSettled = bet.status === "settled";
   const statusInfo = getStatusInfo(bet.status);

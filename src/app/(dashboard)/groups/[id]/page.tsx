@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { motion, AnimatePresence } from "framer-motion";
 import { trpc } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
@@ -72,7 +72,7 @@ interface BetOption {
 export default function GroupDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { data: session } = useSession();
+  const { user } = useUser();
   const groupId = params.id as string;
 
   const [createBetOpen, setCreateBetOpen] = useState(false);
@@ -335,7 +335,7 @@ export default function GroupDetailPage() {
   }
 
   const isAdmin = group.memberships?.some(
-    (m) => m.userId === session?.user?.id && m.role === "admin" && m.status === "approved"
+    (m) => m.userId === user?.id && m.role === "admin" && m.status === "approved"
   );
 
   return (
@@ -752,7 +752,7 @@ export default function GroupDetailPage() {
                     const statusInfo = getStatusInfo(bet.status);
                     const StatusIcon = statusInfo.icon;
                     const isOpenForBetting = bet.status === "open";
-                    const userHasWager = bet.wagers?.some((w) => w.userId === session?.user?.id);
+                    const userHasWager = bet.wagers?.some((w) => w.userId === user?.id);
                     return (
                       <motion.div key={bet.id} variants={item}>
                     <Link href={`/bets/${bet.id}`}>
@@ -846,7 +846,7 @@ export default function GroupDetailPage() {
               <div className="flex items-center justify-center py-8">
                 <Loader2 className="h-6 w-6 animate-spin text-theme-primary" />
               </div>
-            ) : !parlays || parlays.filter((p) => p.userId === session?.user?.id).length === 0 ? (
+            ) : !parlays || parlays.filter((p) => p.userId === user?.id).length === 0 ? (
               <div className="bg-gray-50 rounded-2xl p-6 text-center">
                 <div className="w-12 h-12 bg-theme-gradient-br rounded-xl flex items-center justify-center mx-auto mb-3">
                   <Layers className="h-6 w-6 text-white" />
@@ -872,7 +872,7 @@ export default function GroupDetailPage() {
                 className="space-y-3"
               >
                 {parlays
-                  .filter((p) => p.userId === session?.user?.id)
+                  .filter((p) => p.userId === user?.id)
                   .map((parlay) => {
                     const decimalOdds = parseFloat(parlay.combinedDecimalOdds);
                     const americanOdds = decimalOdds >= 2
@@ -978,7 +978,7 @@ export default function GroupDetailPage() {
           {groupCredits ? (
             <CreditLeaderboard
               credits={groupCredits}
-              currentUserId={session?.user?.id}
+              currentUserId={user?.id}
               isAdmin={isAdmin}
               onAdjustCredits={(userId, username) => {
                 const memberCredit = groupCredits.find((c) => c.userId === userId);
@@ -1022,7 +1022,7 @@ export default function GroupDetailPage() {
           open={parlayBuilderOpen}
           onOpenChange={setParlayBuilderOpen}
           bets={bets}
-          currentUserId={session?.user?.id}
+          currentUserId={user?.id}
           availableCredits={myCredits ? parseFloat(myCredits.availableBalance) : undefined}
           onPlaceParlay={handlePlaceParlay}
           isPending={createParlayMutation.isPending}

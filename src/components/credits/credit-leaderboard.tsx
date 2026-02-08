@@ -10,7 +10,7 @@ import { formatCurrency } from "@/lib/odds";
 
 interface MemberCredit {
   userId: string;
-  username: string;
+  username: string | null;
   avatar: string | null;
   availableBalance: string;
   allocatedBalance: string;
@@ -211,7 +211,7 @@ export function CreditLeaderboard({
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
-                          onAdjustCredits(credit.userId, credit.username);
+                          onAdjustCredits(credit.userId, credit.username ?? "Unknown");
                         }}
                         className="w-full text-theme-primary border-theme-primary-200 hover:bg-theme-primary-50"
                       >

@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { trpc } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +26,7 @@ import { formatAmericanOdds } from "@/lib/odds";
 export default function ParlayDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { data: session } = useSession();
+  const { user } = useUser();
   const parlayId = params.id as string;
 
   const utils = trpc.useUtils();
@@ -116,7 +116,7 @@ export default function ParlayDetailPage() {
     );
   }
 
-  const isOwner = parlay.userId === session?.user?.id;
+  const isOwner = parlay.userId === user?.id;
   const isPending = parlay.result === "pending";
   const statusConfig = getStatusConfig(parlay.result);
   const StatusIcon = statusConfig.icon;
