@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import { Users, Ticket, Menu } from "lucide-react";
+import { Users, Ticket, Menu, Settings } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,7 @@ import { NotificationBell } from "@/components/notifications/notification-bell";
 const navItems = [
   { href: "/groups", label: "Groups", icon: Users },
   { href: "/bets", label: "Bets", icon: Ticket },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function Navbar() {
