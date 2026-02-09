@@ -49,6 +49,7 @@ import {
 } from "lucide-react";
 import { formatAmericanOdds, calculatePayout, formatCurrency } from "@/lib/odds";
 import { CreditDisplay } from "@/components/credits";
+import { BetBreakdown } from "@/components/settlements";
 
 export default function BetDetailPage() {
   const params = useParams();
@@ -272,6 +273,14 @@ export default function BetDetailPage() {
           </span>
         )}
       </motion.div>
+
+      {/* Results Breakdown */}
+      {isSettled && bet.wagers && bet.wagers.length > 0 && (
+        <BetBreakdown
+          wagers={bet.wagers}
+          winningOptionId={bet.winningOptionId}
+        />
+      )}
 
       {/* Settle Up - Payment Links */}
       {isSettled && bet.wagers && bet.wagers.length > 0 && (() => {

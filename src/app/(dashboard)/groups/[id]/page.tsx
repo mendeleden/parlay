@@ -43,9 +43,11 @@ import {
   Sparkles,
   Share2,
   Trophy,
+  Scale,
 } from "lucide-react";
 import { formatAmericanOdds, calculatePayout, isValidAmericanOdds } from "@/lib/odds";
-import { CreditDisplay, CreditLeaderboard, AdminCreditDialog } from "@/components/credits";
+import { CreditDisplay, CreditLeaderboard, AdminCreditDialog, BuyCreditsSection } from "@/components/credits";
+import { GroupLedger } from "@/components/settlements";
 import { ParlayBuilderDialog } from "@/components/parlays";
 import { BetFilter, EmptyFilterState } from "@/components/ui/bet-filter";
 import { ImportBetsModal } from "@/components/markets/import-bets-modal";
@@ -99,7 +101,7 @@ export default function GroupDetailPage() {
   const [importBetsOpen, setImportBetsOpen] = useState(false);
 
   // Bet filter state
-  const [betFilter, setBetFilter] = useState<"all" | "open" | "locked" | "settled">("all");
+  const [betFilter, setBetFilter] = useState<"all" | "open" | "locked" | "settled">("open");
 
   const utils = trpc.useUtils();
 
@@ -451,6 +453,11 @@ export default function GroupDetailPage() {
         />
       )}
 
+      {/* Buy Credits */}
+      {actualGroupId && (
+        <BuyCreditsSection groupId={actualGroupId} isAdmin={isAdmin} />
+      )}
+
       {/* Pending Requests */}
       {pendingRequests && pendingRequests.length > 0 && (
         <motion.div
@@ -531,6 +538,13 @@ export default function GroupDetailPage() {
           >
             <Users className="h-4 w-4 mr-2" />
             Members
+          </TabsTrigger>
+          <TabsTrigger
+            value="ledger"
+            className="flex-1 sm:flex-initial data-[state=active]:bg-card data-[state=active]:text-theme-primary rounded-lg"
+          >
+            <Scale className="h-4 w-4 mr-2" />
+            Ledger
           </TabsTrigger>
         </TabsList>
 
@@ -994,6 +1008,17 @@ export default function GroupDetailPage() {
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-6 w-6 animate-spin text-theme-primary" />
             </div>
+          )}
+        </TabsContent>
+
+        {/* Ledger Tab */}
+        <TabsContent value="ledger" className="mt-4">
+          {actualGroupId && (
+            <GroupLedger
+              groupId={actualGroupId}
+              currentUserId={me?.id}
+              isAdmin={isAdmin}
+            />
           )}
         </TabsContent>
       </Tabs>

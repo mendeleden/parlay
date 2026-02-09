@@ -41,6 +41,12 @@ export const membershipStatusEnum = pgEnum("membership_status", [
 
 export const memberRoleEnum = pgEnum("member_role", ["admin", "member"]);
 
+export const settlementStatusEnum = pgEnum("settlement_status", [
+  "pending",
+  "confirmed",
+  "rejected",
+]);
+
 export const creditTransactionTypeEnum = pgEnum("credit_transaction_type", [
   "initial",
   "admin_adjustment",
@@ -266,6 +272,27 @@ export const notifications = pgTable(
   })
 );
 
+// Settlements table - tracks real-money payments between users
+export const settlements = pgTable("settlements", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  groupId: uuid("group_id")
+    .references(() => groups.id, { onDelete: "cascade" })
+    .notNull(),
+  fromUserId: uuid("from_user_id")
+    .references(() => users.id)
+    .notNull(),
+  toUserId: uuid("to_user_id")
+    .references(() => users.id)
+    .notNull(),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  method: text("method"), // "venmo", "cashapp", "paypal", "cash", "other"
+  note: text("note"),
+  status: settlementStatusEnum("status").default("pending").notNull(),
+  confirmedByUserId: uuid("confirmed_by_user_id").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  confirmedAt: timestamp("confirmed_at"),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   createdGroups: many(groups),
@@ -420,5 +447,24 @@ export const notificationsRelations = relations(notifications, ({ one }) => ({
   group: one(groups, {
     fields: [notifications.groupId],
     references: [groups.id],
+  }),
+}));
+
+export const settlementsRelations = relations(settlements, ({ one }) => ({
+  group: one(groups, {
+    fields: [settlements.groupId],
+    references: [groups.id],
+  }),
+  fromUser: one(users, {
+    fields: [settlements.fromUserId],
+    references: [users.id],
+  }),
+  toUser: one(users, {
+    fields: [settlements.toUserId],
+    references: [users.id],
+  }),
+  confirmedBy: one(users, {
+    fields: [settlements.confirmedByUserId],
+    references: [users.id],
   }),
 }));
