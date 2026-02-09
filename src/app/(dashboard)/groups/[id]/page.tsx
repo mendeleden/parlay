@@ -539,16 +539,14 @@ export default function GroupDetailPage() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-foreground">Bets</h3>
               <div className="flex gap-2">
-                {isAdmin && (
-                  <Button
-                    variant="outline"
-                    onClick={() => setImportBetsOpen(true)}
-                    className="border-theme-primary-200 text-theme-primary hover:bg-theme-primary-50"
-                  >
-                    <Import className="mr-2 h-4 w-4" />
-                    Import
-                  </Button>
-                )}
+                <Button
+                  variant="outline"
+                  onClick={() => setImportBetsOpen(true)}
+                  className="border-theme-primary-200 text-theme-primary hover:bg-theme-primary-50"
+                >
+                  <Import className="mr-2 h-4 w-4" />
+                  Import
+                </Button>
               <Dialog open={createBetOpen} onOpenChange={setCreateBetOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-theme-gradient hover:opacity-90">
