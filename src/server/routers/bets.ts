@@ -11,6 +11,7 @@ import {
   groups,
   parlayLegs,
   parlays,
+  notifications,
 } from "@/db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
@@ -711,6 +712,26 @@ export const betsRouter = router({
       // Settle any parlay legs that include this bet
       await settleParlayLegsForBet(input.betId, input.winningOptionId);
 
+      // Create notifications for all wager owners
+      const notificationValues = bet.wagers.map((wager) => {
+        const isWinner = wager.optionId === input.winningOptionId;
+        const payout = parseFloat(wager.potentialPayout);
+        return {
+          userId: wager.userId,
+          type: "bet_settled" as const,
+          title: `Bet Settled: ${bet.title}`,
+          message: isWinner
+            ? `You won ${payout.toFixed(0)} credits on "${wager.option?.name}"!`
+            : `Your wager on "${wager.option?.name}" didn't win.`,
+          betId: bet.id,
+          groupId: bet.groupId,
+        };
+      });
+
+      if (notificationValues.length > 0) {
+        await db.insert(notifications).values(notificationValues);
+      }
+
       return updatedBet;
     }),
 
@@ -809,6 +830,23 @@ export const betsRouter = router({
           .update(wagers)
           .set({ result: "push" })
           .where(eq(wagers.id, wager.id));
+      }
+
+      // Create notifications for all wager owners
+      const cancelNotifications = bet.wagers.map((wager) => {
+        const wagerAmount = parseFloat(wager.amount);
+        return {
+          userId: wager.userId,
+          type: "bet_cancelled" as const,
+          title: `Bet Cancelled: ${bet.title}`,
+          message: `Your ${wagerAmount.toFixed(0)} credit wager has been refunded.`,
+          betId: bet.id,
+          groupId: bet.groupId,
+        };
+      });
+
+      if (cancelNotifications.length > 0) {
+        await db.insert(notifications).values(cancelNotifications);
       }
 
       return updatedBet;

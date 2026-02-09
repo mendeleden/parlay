@@ -145,7 +145,37 @@ export const authRouter = router({
       id: ctx.user.id,
       email: ctx.user.email,
       username: ctx.user.username,
+      venmoHandle: ctx.user.venmoHandle,
+      cashappHandle: ctx.user.cashappHandle,
+      paypalHandle: ctx.user.paypalHandle,
       hasSetUsername: ctx.user.username !== null && !ctx.user.username.match(/^[a-z]+[a-z0-9]{4}$/),
     };
   }),
+
+  updatePaymentHandles: protectedProcedure
+    .input(
+      z.object({
+        venmoHandle: z.string().max(50).optional().nullable(),
+        cashappHandle: z.string().max(50).optional().nullable(),
+        paypalHandle: z.string().max(50).optional().nullable(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const [updated] = await db
+        .update(users)
+        .set({
+          venmoHandle: input.venmoHandle ?? null,
+          cashappHandle: input.cashappHandle ?? null,
+          paypalHandle: input.paypalHandle ?? null,
+          updatedAt: new Date(),
+        })
+        .where(eq(users.id, ctx.user.id))
+        .returning();
+
+      return {
+        venmoHandle: updated.venmoHandle,
+        cashappHandle: updated.cashappHandle,
+        paypalHandle: updated.paypalHandle,
+      };
+    }),
 });

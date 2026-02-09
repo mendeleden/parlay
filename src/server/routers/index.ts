@@ -6,6 +6,7 @@ import { parlaysRouter } from "./parlays";
 import { creditsRouter } from "./credits";
 import { marketsRouter } from "./markets";
 import { statsRouter } from "./stats";
+import { notificationsRouter } from "./notifications";
 
 export const appRouter = router({
   auth: authRouter,
@@ -15,6 +16,7 @@ export const appRouter = router({
   credits: creditsRouter,
   markets: marketsRouter,
   stats: statsRouter,
+  notifications: notificationsRouter,
 });
 
 export type AppRouter = typeof appRouter;

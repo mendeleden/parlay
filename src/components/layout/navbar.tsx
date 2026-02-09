@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 
 const navItems = [
   { href: "/groups", label: "Groups", icon: Users },
@@ -109,6 +110,7 @@ export function Navbar() {
 
         <div className="flex items-center space-x-2">
           <ThemeToggle />
+          {isSignedIn && <NotificationBell />}
           {isSignedIn && (
             <UserButton
               afterSignOutUrl="/"

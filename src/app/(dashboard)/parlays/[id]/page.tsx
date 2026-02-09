@@ -26,9 +26,10 @@ import { formatAmericanOdds } from "@/lib/odds";
 export default function ParlayDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { user } = useUser();
+  const { user: clerkUser } = useUser();
   const parlayId = params.id as string;
 
+  const { data: me } = trpc.auth.getMe.useQuery();
   const utils = trpc.useUtils();
 
   const { data: parlay, isLoading } = trpc.parlays.getById.useQuery({
@@ -116,7 +117,7 @@ export default function ParlayDetailPage() {
     );
   }
 
-  const isOwner = parlay.userId === user?.id;
+  const isOwner = parlay.userId === me?.id;
   const isPending = parlay.result === "pending";
   const statusConfig = getStatusConfig(parlay.result);
   const StatusIcon = statusConfig.icon;

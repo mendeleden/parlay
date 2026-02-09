@@ -44,6 +44,8 @@ import {
   Users,
   Coins,
   AlertCircle,
+  ExternalLink,
+  Settings,
 } from "lucide-react";
 import { formatAmericanOdds, calculatePayout, formatCurrency } from "@/lib/odds";
 import { CreditDisplay } from "@/components/credits";
@@ -51,8 +53,10 @@ import { CreditDisplay } from "@/components/credits";
 export default function BetDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { user } = useUser();
+  const { user: clerkUser } = useUser();
   const betId = params.id as string;
+
+  const { data: me } = trpc.auth.getMe.useQuery();
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [wagerAmount, setWagerAmount] = useState("");
@@ -202,8 +206,8 @@ export default function BetDetailPage() {
     );
   }
 
-  const isCreator = bet.createdById === user?.id;
-  const userWager = bet.wagers?.find((w) => w.userId === user?.id);
+  const isCreator = bet.createdById === me?.id;
+  const userWager = bet.wagers?.find((w) => w.userId === me?.id);
   const isOpen = bet.status === "open";
   const isSettled = bet.status === "settled";
   const statusInfo = getStatusInfo(bet.status);
@@ -268,6 +272,110 @@ export default function BetDetailPage() {
           </span>
         )}
       </motion.div>
+
+      {/* Settle Up - Payment Links */}
+      {isSettled && bet.wagers && bet.wagers.length > 0 && (() => {
+        const usersWithHandles = bet.wagers
+          .filter((w) => w.userId !== me?.id)
+          .map((w) => w.user)
+          .filter((u, i, arr) => u && arr.findIndex((x) => x?.id === u?.id) === i)
+          .filter((u) => u?.venmoHandle || u?.cashappHandle || u?.paypalHandle);
+
+        if (usersWithHandles.length === 0) return null;
+
+        return (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="bg-card border border-border rounded-2xl p-5"
+          >
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">
+              Settle Up
+            </h3>
+            <div className="space-y-3">
+              {usersWithHandles.map((u) => {
+                if (!u) return null;
+                return (
+                  <div key={u.id} className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Avatar className="h-7 w-7">
+                        <AvatarImage src={u.avatar || undefined} />
+                        <AvatarFallback className="text-xs bg-theme-gradient-br text-white">
+                          {getInitials(u.username)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm font-medium text-foreground truncate">
+                        @{u.username}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {u.venmoHandle && (
+                        <a
+                          href={`venmo://paycharge?txn=pay&recipients=${encodeURIComponent(u.venmoHandle)}&note=${encodeURIComponent(`Parlay bet: ${bet.title}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-80"
+                          style={{ backgroundColor: "#008CFF" }}
+                        >
+                          Venmo
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      )}
+                      {u.cashappHandle && (
+                        <a
+                          href={`https://cash.app/$${encodeURIComponent(u.cashappHandle)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-80"
+                          style={{ backgroundColor: "#00D632" }}
+                        >
+                          CashApp
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      )}
+                      {u.paypalHandle && (
+                        <a
+                          href={`https://paypal.me/${encodeURIComponent(u.paypalHandle)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-80"
+                          style={{ backgroundColor: "#003087" }}
+                        >
+                          PayPal
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        );
+      })()}
+
+      {/* Prompt to add payment handles if user hasn't */}
+      {isSettled && me && !bet.wagers?.find((w) => w.userId === me.id)?.user?.venmoHandle &&
+        !bet.wagers?.find((w) => w.userId === me.id)?.user?.cashappHandle &&
+        !bet.wagers?.find((w) => w.userId === me.id)?.user?.paypalHandle &&
+        userWager && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="bg-muted rounded-2xl p-4 flex items-center gap-3"
+        >
+          <Settings className="h-5 w-5 text-muted-foreground shrink-0" />
+          <p className="text-sm text-muted-foreground flex-1">
+            Add your Venmo, CashApp, or PayPal handle in{" "}
+            <Link href="/settings" className="text-theme-primary hover:underline">
+              Settings
+            </Link>{" "}
+            so others can pay you.
+          </p>
+        </motion.div>
+      )}
 
       {/* User's Wager Card */}
       {userWager && (

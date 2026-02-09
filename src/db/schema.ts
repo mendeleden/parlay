@@ -8,8 +8,15 @@ import {
   uuid,
   primaryKey,
   pgEnum,
+  index,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+
+// Notification type enum
+export const notificationTypeEnum = pgEnum("notification_type", [
+  "bet_settled",
+  "bet_cancelled",
+]);
 
 // Enums
 export const betStatusEnum = pgEnum("bet_status", [
@@ -55,6 +62,9 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   username: text("username").unique(),
   avatar: text("avatar"),
+  venmoHandle: text("venmo_handle"),
+  cashappHandle: text("cashapp_handle"),
+  paypalHandle: text("paypal_handle"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -229,6 +239,33 @@ export const creditTransactions = pgTable("credit_transactions", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Notifications table
+export const notifications = pgTable(
+  "notifications",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    type: notificationTypeEnum("type").notNull(),
+    title: text("title").notNull(),
+    message: text("message").notNull(),
+    betId: uuid("bet_id").references(() => bets.id, { onDelete: "set null" }),
+    groupId: uuid("group_id").references(() => groups.id, {
+      onDelete: "set null",
+    }),
+    read: boolean("read").default(false).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    userReadCreatedIdx: index("notifications_user_read_created_idx").on(
+      table.userId,
+      table.read,
+      table.createdAt
+    ),
+  })
+);
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   createdGroups: many(groups),
@@ -236,6 +273,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   createdBets: many(bets),
   wagers: many(wagers),
   createdParlays: many(parlays),
+  notifications: many(notifications),
 }));
 
 export const groupsRelations = relations(groups, ({ one, many }) => ({
@@ -369,3 +407,18 @@ export const creditTransactionsRelations = relations(
     }),
   })
 );
+
+export const notificationsRelations = relations(notifications, ({ one }) => ({
+  user: one(users, {
+    fields: [notifications.userId],
+    references: [users.id],
+  }),
+  bet: one(bets, {
+    fields: [notifications.betId],
+    references: [bets.id],
+  }),
+  group: one(groups, {
+    fields: [notifications.groupId],
+    references: [groups.id],
+  }),
+}));
