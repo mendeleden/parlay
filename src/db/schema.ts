@@ -9,6 +9,7 @@ import {
   primaryKey,
   pgEnum,
   index,
+  jsonb,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -293,6 +294,22 @@ export const settlements = pgTable("settlements", {
   confirmedAt: timestamp("confirmed_at"),
 });
 
+// Bet Templates table - saved bet configurations for reuse
+export const betTemplates = pgTable("bet_templates", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  groupId: uuid("group_id")
+    .references(() => groups.id, { onDelete: "cascade" })
+    .notNull(),
+  createdById: uuid("created_by_id")
+    .references(() => users.id)
+    .notNull(),
+  name: text("name").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  options: jsonb("options").$type<Array<{ name: string; americanOdds: number }>>().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   createdGroups: many(groups),
@@ -301,6 +318,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   wagers: many(wagers),
   createdParlays: many(parlays),
   notifications: many(notifications),
+  betTemplates: many(betTemplates),
 }));
 
 export const groupsRelations = relations(groups, ({ one, many }) => ({
@@ -311,6 +329,7 @@ export const groupsRelations = relations(groups, ({ one, many }) => ({
   memberships: many(groupMemberships),
   bets: many(bets),
   parlays: many(parlays),
+  betTemplates: many(betTemplates),
 }));
 
 export const groupMembershipsRelations = relations(
@@ -465,6 +484,17 @@ export const settlementsRelations = relations(settlements, ({ one }) => ({
   }),
   confirmedBy: one(users, {
     fields: [settlements.confirmedByUserId],
+    references: [users.id],
+  }),
+}));
+
+export const betTemplatesRelations = relations(betTemplates, ({ one }) => ({
+  group: one(groups, {
+    fields: [betTemplates.groupId],
+    references: [groups.id],
+  }),
+  createdBy: one(users, {
+    fields: [betTemplates.createdById],
     references: [users.id],
   }),
 }));

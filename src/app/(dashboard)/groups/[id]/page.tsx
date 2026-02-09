@@ -44,6 +44,8 @@ import {
   Share2,
   Trophy,
   Scale,
+  FileText,
+  Save,
 } from "lucide-react";
 import { formatAmericanOdds, calculatePayout, isValidAmericanOdds } from "@/lib/odds";
 import { CreditDisplay, CreditLeaderboard, AdminCreditDialog, BuyCreditsSection } from "@/components/credits";
@@ -51,6 +53,7 @@ import { GroupLedger } from "@/components/settlements";
 import { ParlayBuilderDialog } from "@/components/parlays";
 import { BetFilter, EmptyFilterState } from "@/components/ui/bet-filter";
 import { ImportBetsModal } from "@/components/markets/import-bets-modal";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Import } from "lucide-react";
 
 const container = {
@@ -103,6 +106,11 @@ export default function GroupDetailPage() {
   // Bet filter state
   const [betFilter, setBetFilter] = useState<"all" | "open" | "locked" | "settled">("open");
 
+  // Template state
+  const [templatePopoverOpen, setTemplatePopoverOpen] = useState(false);
+  const [saveTemplateMode, setSaveTemplateMode] = useState(false);
+  const [templateName, setTemplateName] = useState("");
+
   const utils = trpc.useUtils();
 
   const { data: group, isLoading: groupLoading } = trpc.groups.getById.useQuery(
@@ -131,6 +139,33 @@ export default function GroupDetailPage() {
     { groupId: actualGroupId! },
     { enabled: !!actualGroupId }
   );
+
+  const { data: templates } = trpc.templates.list.useQuery(
+    { groupId: actualGroupId! },
+    { enabled: !!actualGroupId }
+  );
+
+  const createTemplateMutation = trpc.templates.create.useMutation({
+    onSuccess: () => {
+      toast.success("Template saved!");
+      setSaveTemplateMode(false);
+      setTemplateName("");
+      if (actualGroupId) utils.templates.list.invalidate({ groupId: actualGroupId });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const deleteTemplateMutation = trpc.templates.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Template deleted");
+      if (actualGroupId) utils.templates.list.invalidate({ groupId: actualGroupId });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const createBetMutation = trpc.bets.create.useMutation({
     onSuccess: () => {
@@ -210,6 +245,36 @@ export default function GroupDetailPage() {
       { name: "", americanOdds: 100 },
       { name: "", americanOdds: 100 },
     ]);
+  };
+
+  const loadTemplate = (template: { title: string; description: string | null; options: Array<{ name: string; americanOdds: number }> }) => {
+    setBetTitle(template.title);
+    setBetDescription(template.description ?? "");
+    setOptions(template.options.length >= 2 ? template.options : [
+      ...template.options,
+      ...Array(2 - template.options.length).fill({ name: "", americanOdds: 100 }),
+    ]);
+    setTemplatePopoverOpen(false);
+    setCreateBetOpen(true);
+  };
+
+  const handleSaveTemplate = () => {
+    if (!templateName.trim()) {
+      toast.error("Template name is required");
+      return;
+    }
+    const validOptions = options.filter((o) => o.name.trim());
+    if (validOptions.length < 2) {
+      toast.error("At least 2 options required to save a template");
+      return;
+    }
+    createTemplateMutation.mutate({
+      groupId: actualGroupId!,
+      name: templateName.trim(),
+      title: betTitle,
+      description: betDescription || undefined,
+      options: validOptions,
+    });
   };
 
   const handleCreateBet = () => {
@@ -555,6 +620,50 @@ export default function GroupDetailPage() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-foreground">Bets</h3>
               <div className="flex gap-2">
+                {templates && templates.length > 0 && (
+                  <Popover open={templatePopoverOpen} onOpenChange={setTemplatePopoverOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="border-theme-primary-200 text-theme-primary hover:bg-theme-primary-50"
+                      >
+                        <FileText className="mr-2 h-4 w-4" />
+                        Templates
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-72 p-2" align="end">
+                      <div className="space-y-1">
+                        <p className="text-xs font-medium text-muted-foreground px-2 py-1">
+                          Load from template
+                        </p>
+                        {templates.map((tpl) => (
+                          <div
+                            key={tpl.id}
+                            className="flex items-center justify-between rounded-lg hover:bg-muted px-2 py-1.5 group"
+                          >
+                            <button
+                              className="flex-1 text-left text-sm font-medium truncate"
+                              onClick={() => loadTemplate(tpl)}
+                            >
+                              {tpl.name}
+                            </button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6 opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-600 hover:bg-red-50"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteTemplateMutation.mutate({ id: tpl.id });
+                              }}
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                )}
                 <Button
                   variant="outline"
                   onClick={() => setImportBetsOpen(true)}
@@ -563,7 +672,13 @@ export default function GroupDetailPage() {
                   <Import className="mr-2 h-4 w-4" />
                   Import
                 </Button>
-              <Dialog open={createBetOpen} onOpenChange={setCreateBetOpen}>
+              <Dialog open={createBetOpen} onOpenChange={(open) => {
+                setCreateBetOpen(open);
+                if (!open) {
+                  setSaveTemplateMode(false);
+                  setTemplateName("");
+                }
+              }}>
                 <DialogTrigger asChild>
                   <Button className="bg-theme-gradient hover:opacity-90">
                     <Plus className="mr-2 h-4 w-4" />
@@ -694,6 +809,47 @@ export default function GroupDetailPage() {
                     </p>
                   </div>
                 </div>
+                {/* Save as Template */}
+                {saveTemplateMode ? (
+                  <div className="flex items-center gap-2 border rounded-lg p-2 bg-muted/50">
+                    <Input
+                      placeholder="Template name..."
+                      value={templateName}
+                      onChange={(e) => setTemplateName(e.target.value)}
+                      className="flex-1 h-8 text-sm"
+                      onKeyDown={(e) => e.key === "Enter" && handleSaveTemplate()}
+                    />
+                    <Button
+                      size="sm"
+                      onClick={handleSaveTemplate}
+                      disabled={createTemplateMutation.isPending}
+                      className="h-8 bg-theme-gradient hover:opacity-90"
+                    >
+                      {createTemplateMutation.isPending ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : (
+                        "Save"
+                      )}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => { setSaveTemplateMode(false); setTemplateName(""); }}
+                      className="h-8"
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setSaveTemplateMode(true)}
+                    className="text-xs text-muted-foreground hover:text-theme-primary transition-colors flex items-center gap-1"
+                  >
+                    <Save className="h-3 w-3" />
+                    Save as Template
+                  </button>
+                )}
                 <DialogFooter className="flex-col sm:flex-row gap-2">
                   <Button
                     variant="outline"

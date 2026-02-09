@@ -8,6 +8,7 @@ import { marketsRouter } from "./markets";
 import { statsRouter } from "./stats";
 import { notificationsRouter } from "./notifications";
 import { settlementsRouter } from "./settlements";
+import { templatesRouter } from "./templates";
 
 export const appRouter = router({
   auth: authRouter,
@@ -19,6 +20,7 @@ export const appRouter = router({
   stats: statsRouter,
   notifications: notificationsRouter,
   settlements: settlementsRouter,
+  templates: templatesRouter,
 });
 
 export type AppRouter = typeof appRouter;
